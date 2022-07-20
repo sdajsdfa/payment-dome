@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.DatainfoMapper">
+
+    <select id="countProjectinfo" resultType="java.lang.Integer">
+      select count(distinct projectId) from datainfo where userId=#{unitId,jdbcType=BIGINT} and dataStatus=0
+    </select>
+    <select id="countFile" resultType="java.lang.Integer">
+        select count(1) from datainfo where userId=#{unitId,jdbcType=BIGINT} and dataStatus=0
+    </select>
+    <select id="countAnalysis" resultType="java.lang.Integer">
+        select count(1) from datainfo where userId=#{unitId,jdbcType=BIGINT} and analysisStatus=1 and dataStatus=0
+    </select>
+    <select id="countMachine" resultType="java.lang.Integer">
+        select count(distinct machineId) from datainfo where userId=#{unitId,jdbcType=BIGINT} and dataStatus=0
+    </select>
+    <select id="countSevenDaysUpload" resultType="java.util.Map">
+        select date_format(uploadTime,'%Y-%m-%d') as uploadTime, count(1) as sevenDaysUploadNum from datainfo where dataStatus=0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(uploadTime) group by day(uploadTime);
+    </select>
+    <select id="countSevenDaysAnalysis" resultType="java.util.Map">
+        select date_format(analyFileTime,'%Y-%m-%d') as analyFileTime, count(1) as sevenDaysAnalysisNum from datainfo where analysisStatus=1 and dataStatus=0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= ]]> date(analyFileTime) group by day(analyFileTime);
+    </select>
+</mapper>
