@@ -45,18 +45,22 @@ public class DatainfoController {
     @ApiOperation("上传检测数据")
     @PostMapping(value = "/uploadTestInfo")
     public RestResult uploadTestInfo(@RequestBody Datainfo datainfo) {
+        Map<String,Object> map = new HashMap<>();
         if (datainfo == null) {
             generator.getFailResult("单位信息不能为空");
         }
         datainfo.setAnalyFileTime(new Date());
         datainfo.setOrginFileTime(new Date());
+        datainfo.setUploadTime(new Date());
         datainfo.setTestTime(new Date());
         datainfo.setDataStatus(0);
         Boolean ui = datainfoService.save(datainfo);
         if (ui != true) {
             return generator.getFailResult("添加失败");
         }
-        return generator.getSuccessResult(datainfo);
+        map.put("dataId",datainfo.getDataId());
+        map.put("uploadTime",datainfo.getUploadTime());
+        return generator.getSuccessResult(map);
     }
 
     /**
