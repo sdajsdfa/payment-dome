@@ -54,7 +54,7 @@ public class UserinfoController {
      */
     @ApiOperation("登录接口")
     @GetMapping   (value = "/login")
-    public RestResult login(String account, String password,String code,HttpSession httpSession, HttpServletResponse response) {
+    public RestResult login(String account, String password,String code,HttpSession httpSession,HttpServletResponse response) {
         Map<String,Object> map = new HashMap<>();
         if (account == null || password == null || code == null) {
             return generator.getFailResult("输入的用户名或密码不能为空");
@@ -76,15 +76,15 @@ public class UserinfoController {
         if (!userinfo.getPassword().equals(md5Password)) {
             return generator.getFailResult("密码不正确");
         }
-//      redisTemplate.opsForValue().set("userinfo", info);
         String token = TokenUtils.getToken(userinfo);
         map.put("id",userinfo.getId());
         map.put("account",userinfo.getAccount());
         map.put("token",token);
-        httpSession.setAttribute("userinfo",userinfo);
         Cookie cookie = new Cookie("token", token);
         cookie.setPath("/");
         response.addCookie(cookie);
+        httpSession.setAttribute(token,userinfo);
+//      redisTemplate.opsForValue().set(token, userinfo);
         return generator.getSuccessResult(map);
     }
 
