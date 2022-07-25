@@ -106,12 +106,13 @@ public class ProjectinfoController {
     @PostMapping("/declareCheckProject")
     public RestResult declareCheckProject(@RequestBody Projectinfo projectinfo) {
         projectinfo.setDeclareTime(new Date());
+        projectinfo.setCreateTime(new Date());
         projectinfo.setStatus(0);
         Boolean ui = projectinfoService.save(projectinfo);
         if (ui != true) {
             return generator.getFailResult("添加失败");
         }
-        return generator.getSuccessResult();
+        return generator.getSuccessResult(projectinfo);
     }
 }
 
