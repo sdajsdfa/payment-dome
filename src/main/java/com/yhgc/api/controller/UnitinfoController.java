@@ -50,7 +50,9 @@ public class UnitinfoController {
     public RestResult queryAllUnitInfo() {
         Page<Unitinfo> page = new Page<>(1,10);
         //根据条件查询数据
-        IPage<Unitinfo> iPage = unitinfoService.page(page, null);
+        QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status",1);
+        IPage<Unitinfo> iPage = unitinfoService.page(page, queryWrapper);
         return generator.getSuccessResult(iPage);
     }
 
@@ -123,6 +125,7 @@ public class UnitinfoController {
     public RestResult deleteUnitInfo(@RequestBody Unitinfo unitinfo) {
         //将实体对象进行包装，包装为操作条件
         unitinfo.setStatus(2);
+        System.out.println(unitinfo.getId());
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",unitinfo.getId());
         Boolean ui =  unitinfoService.update(unitinfo,queryWrapper);
@@ -133,7 +136,7 @@ public class UnitinfoController {
         query.eq("unitId",unitinfo.getId());
         List<Userinfo> list = userinfoService.list(query);
         for (Userinfo userinfo:list) {
-            userinfo.setStatus(1);
+            userinfo.setStatus(2);
             Boolean user =  userinfoService.update(userinfo,query);
             if (user != true) {
                 return generator.getFailResult("删除单位信息失败");
