@@ -1,6 +1,5 @@
 package com.yhgc.api.enums;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 public enum TemplateTypeEnum {
 
