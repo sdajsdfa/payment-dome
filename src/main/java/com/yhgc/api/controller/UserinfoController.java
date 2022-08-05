@@ -174,7 +174,7 @@ public class UserinfoController {
         queryWrapper.eq("id", userinfo.getId());
         Boolean u = userinfoService.update(userinfo,queryWrapper);
         if (u != true) {
-            return generator.getFailResult("修改失败");
+            return generator.getFailResult("暂停人员失败");
         }
         return generator.getSuccessResult(userinfo);
     }
