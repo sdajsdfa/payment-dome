@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResultGenerator {
 
-    private static final String SUCCESS = "success";
+    private static final String SUCCESS = "成功";
     //成功
     public RestResult getSuccessResult() {
         return new RestResult()
