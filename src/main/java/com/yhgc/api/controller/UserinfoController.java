@@ -291,5 +291,32 @@ public class UserinfoController {
         return (String) httpSession.getAttribute("code");
     }
 
+    /**
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @ApiOperation("修改用户密码")
+    @PostMapping(value = "/updatePwd")
+    public RestResult updatePwd(Long id,String oldPassword,String newPassword ){
+        QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        queryWrapper.eq("status",0);
+        Userinfo userinfo=userinfoService.getOne(queryWrapper);
+        String md5Password = getMd5(oldPassword, userinfo.getAccount());
+        if (!userinfo.getPassword().equals(md5Password)) {
+            return generator.getFailResult("密码不正确");
+        }
+        QueryWrapper<Userinfo> query= new QueryWrapper<>();
+        query.eq("id",userinfo.getId());
+        Userinfo user = new Userinfo();
+        user.setPassword(newPassword);
+        Boolean ui = userinfoService.update(user,queryWrapper);
+        if (ui != true) {
+            return generator.getFailResult("修改密码失败");
+        }
+        return generator.getSuccessResult();
+    }
 }
 
