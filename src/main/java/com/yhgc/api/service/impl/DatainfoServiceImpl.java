@@ -26,32 +26,32 @@ public class DatainfoServiceImpl extends ServiceImpl<DatainfoMapper, Datainfo> i
     private DatainfoMapper datainfoMapper;
 
     @Override
-    public Integer countProjectinfo(String userId) {
+    public Integer countProjectinfo(Integer userId) {
         return datainfoMapper.countProjectinfo(userId);
     }
 
     @Override
-    public Integer countFile(String userId) {
+    public Integer countFile(Integer userId) {
         return datainfoMapper.countFile(userId);
     }
 
     @Override
-    public Integer countAnalysis(String userId) {
+    public Integer countAnalysis(Integer userId) {
         return datainfoMapper.countAnalysis(userId);
     }
 
     @Override
-    public Integer countMachine(String userId) {
+    public Integer countMachine(Integer userId) {
         return datainfoMapper.countMachine(userId);
     }
 
     @Override
-    public List<Map<Date,Integer>> countSevenDaysUpload(String userId) {
+    public List<Map<Date,Integer>> countSevenDaysUpload(Integer userId) {
         return datainfoMapper.countSevenDaysUpload(userId);
     }
 
     @Override
-    public List<Map<Date,Integer>> countSevenDaysAnalysis(String userId) {
+    public List<Map<Date,Integer>> countSevenDaysAnalysis(Integer userId) {
         return datainfoMapper.countSevenDaysAnalysis(userId);
     }
 }

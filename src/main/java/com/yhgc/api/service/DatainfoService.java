@@ -22,21 +22,21 @@ public interface DatainfoService extends IService<Datainfo> {
     * @param userId
     * @return
     */
-   Integer countProjectinfo(String userId);
+   Integer countProjectinfo(Integer userId);
 
    /**
     * 文件数量
     * @param userId
     * @return
     */
-   Integer countFile(String userId);
+   Integer countFile(Integer userId);
 
    /**
     * 分析文件数量
     * @param userId
     * @return
     */
-   Integer countAnalysis(String userId);
+   Integer countAnalysis(Integer userId);
 
 
    /**
@@ -44,19 +44,19 @@ public interface DatainfoService extends IService<Datainfo> {
     * @param userId
     * @return
     */
-   Integer countMachine(String userId);
+   Integer countMachine(Integer userId);
 
    /**
     * 近七日上传文件数量（数组）
     * @param userId
     * @return
     */
-   List<Map<Date,Integer>> countSevenDaysUpload(String userId);
+   List<Map<Date,Integer>> countSevenDaysUpload(Integer userId);
 
    /**
     * 近七日分析文件数量（数组）
     * @param userId
     * @return
     */
-   List<Map<Date,Integer>> countSevenDaysAnalysis(String userId);
+   List<Map<Date,Integer>> countSevenDaysAnalysis(Integer userId);
 }

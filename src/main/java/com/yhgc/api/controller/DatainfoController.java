@@ -249,7 +249,7 @@ public class DatainfoController {
      */
     @ApiOperation("个人数据统计")
     @PostMapping("/countPersonalData")
-    public RestResult countPersonalData(String userId){
+    public RestResult countPersonalData(Integer userId){
        Map<String,Object> map = new HashMap();
        Integer projectNum = datainfoService.countProjectinfo(userId);
        Integer fileNum =  datainfoService.countFile(userId);

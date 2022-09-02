@@ -18,15 +18,15 @@ import java.util.Map;
  */
 public interface DatainfoMapper extends BaseMapper<Datainfo> {
 
-    Integer countProjectinfo(String userId);
+    Integer countProjectinfo(Integer userId);
 
-    Integer  countFile(String userId);
+    Integer  countFile(Integer userId);
 
-    Integer countAnalysis(String userId);
+    Integer countAnalysis(Integer userId);
 
-    Integer countMachine(String userId);
+    Integer countMachine(Integer userId);
 
-    List<Map<Date,Integer>> countSevenDaysUpload(String userId);
+    List<Map<Date,Integer>> countSevenDaysUpload(Integer userId);
 
-    List<Map<Date,Integer>> countSevenDaysAnalysis(String userId);
+    List<Map<Date,Integer>> countSevenDaysAnalysis(Integer userId);
 }
