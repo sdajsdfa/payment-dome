@@ -44,7 +44,7 @@ public class Analysisinfo implements Serializable {
 
     @ApiModelProperty(value = "数据id")
     @TableField("dataId")
-    private Integer dataid;
+    private Integer dataId;
 
     @ApiModelProperty(value = "桩号")
     @TableField("pileNo")

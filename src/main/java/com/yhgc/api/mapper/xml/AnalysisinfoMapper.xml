@@ -3,6 +3,6 @@
 <mapper namespace="com.yhgc.api.mapper.AnalysisinfoMapper">
 
     <select id="countAnalysis" resultType="java.util.Map">
-        select projectId,count(analysisResults) as analysisResults from analysisinfo where unitId=#{unitId,jdbcType=BIGINT} and dataStatus=0 and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) <![CDATA[ <= ]]> date(analyFileTime) group by projectId,analysisResults;
+        select projectId,projectName,declareTime,count(analysisResults) as analysisResults from analysisinfo where unitId=#{unitId,jdbcType=BIGINT} and dataStatus=0 and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) <![CDATA[ <= ]]> date(analyFileTime) group by projectId,analysisResults;
     </select>
 </mapper>
