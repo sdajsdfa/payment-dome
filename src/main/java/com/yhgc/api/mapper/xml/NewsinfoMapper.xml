@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.NewsinfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yhgc.api.entity.Newsinfo">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="synopsis" column="synopsis" jdbcType="VARCHAR"/>
+        <result property="date" column="date" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="catenate" column="testMethod" jdbcType="VARCHAR"/>
+        <result property="dataType" column="serialNo" jdbcType="INTEGER"/>
+        <result property="status" column="testCount" jdbcType="INTEGER"/>
+        <result property="remark" column="accountName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,synopsis,date,
+        createTime,catenate,dataType,
+        status,remark
+    </sql>
+
+    <select id="queryNews" resultType="com.yhgc.api.entity.Newsinfo">
+        select <include refid="Base_Column_List" /> from newsinfo WHERE dataType=1 and status=0 order by date desc limit 15
+    </select>
+    <select id="queryProduct" resultType="com.yhgc.api.entity.Newsinfo">
+        select <include refid="Base_Column_List" /> from newsinfo WHERE dataType=0 and status=0 order by date desc limit 15
+    </select>
+
+</mapper>
