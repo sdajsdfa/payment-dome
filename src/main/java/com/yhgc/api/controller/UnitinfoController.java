@@ -51,7 +51,7 @@ public class UnitinfoController {
         Page<Unitinfo> page = new Page<>(1,10);
         //根据条件查询数据
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("status",1);
+        queryWrapper.eq("status",0);
         IPage<Unitinfo> iPage = unitinfoService.page(page, queryWrapper);
         return generator.getSuccessResult(iPage);
     }
