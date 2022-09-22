@@ -74,7 +74,7 @@ public class ProjectinfoController {
         queryWrapper.eq("id", projectinfo.getId());
         queryWrapper.eq("status", 0);
         Boolean p = projectinfoService.update(projectinfo,queryWrapper);
-        if (p != true) {
+        if (!p) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult();
@@ -91,7 +91,7 @@ public class ProjectinfoController {
         projectinfo.setStatus(2);
         //将实体对象进行包装，包装为操作条件
         Boolean pi =  projectinfoService.updateById(projectinfo);
-        if (pi != true) {
+        if (!pi) {
             return generator.getFailResult("删除工程信息失败");
         }
         return generator.getSuccessResult();
@@ -109,7 +109,7 @@ public class ProjectinfoController {
         projectinfo.setCreateTime(new Date());
         projectinfo.setStatus(0);
         Boolean ui = projectinfoService.save(projectinfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(projectinfo);

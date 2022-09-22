@@ -44,7 +44,7 @@ public class ReportinfoController {
             }
             reportinfo.setCreateTime(new Date());
             Boolean ri = reportinfoService.save(reportinfo);
-            if (ri != true) {
+            if (!ri) {
                 return generator.getFailResult("添加失败");
             }
             return generator.getSuccessResult(reportinfo);
@@ -82,7 +82,7 @@ public class ReportinfoController {
         }
         reportinfo.setCount(countAdd);
         Boolean ri = reportinfoService.updateById(reportinfo);
-        if (ri != true) {
+        if (!ri) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult(reportinfo);

@@ -51,7 +51,7 @@ public class AnalysisinfoController {
         analysisinfo.setDeclareTime(new Date());
         analysisinfo.setDataStatus(0);
         Boolean ai = analysisinfoService.save(analysisinfo);
-        if (ai != true) {
+        if (!ai) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(analysisinfo);

@@ -136,7 +136,7 @@ public class UserinfoController {
         userinfo.setStatus(0);
         userinfo.setCreateTime(new Date());
         Boolean b = userinfoService.save(userinfo);
-        if (b != true) {
+        if (!b) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(userinfo);
@@ -154,7 +154,7 @@ public class UserinfoController {
         QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", userinfo.getId());
         Boolean u = userinfoService.update(userinfo,queryWrapper);
-        if (u != true) {
+        if (!u) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult();
@@ -173,7 +173,7 @@ public class UserinfoController {
         QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", userinfo.getId());
         Boolean u = userinfoService.update(userinfo,queryWrapper);
-        if (u != true) {
+        if (!u) {
             return generator.getFailResult("暂停人员失败");
         }
         return generator.getSuccessResult(userinfo);
@@ -190,7 +190,7 @@ public class UserinfoController {
         userinfo.setStatus(2);
         //将实体对象进行包装，包装为操作条件
         Boolean ui =  userinfoService.updateById(userinfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("删除人员失败");
         }
         return generator.getSuccessResult(userinfo);
@@ -313,7 +313,7 @@ public class UserinfoController {
         Userinfo user = new Userinfo();
         user.setPassword(newPassword);
         Boolean ui = userinfoService.update(user,queryWrapper);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("修改密码失败");
         }
         return generator.getSuccessResult();

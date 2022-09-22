@@ -46,7 +46,7 @@ public class NewsinfoController {
         newsinfo.setDate(new Date());
         newsinfo.setStatus(0);
         Boolean si = newsinfoService.save(newsinfo);
-        if (si != true) {
+        if (!si) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(newsinfo);

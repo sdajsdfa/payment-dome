@@ -66,7 +66,7 @@ public class DepartmentController {
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", unitInfo.getId());
         Boolean si = unitinfoService.update(unitInfo,queryWrapper);
-        if (si != true) {
+        if (!si) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult(unitInfo);
@@ -86,7 +86,7 @@ public class DepartmentController {
         department.setCreateTime(new Date());
         department.setStatus(0);
         Boolean si = departmentService.save(department);
-        if (si != true) {
+        if (!si) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(department);
@@ -107,7 +107,7 @@ public class DepartmentController {
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", department.getId());
         Boolean dt = departmentService.update(department,queryWrapper);
-        if (dt != true) {
+        if (!dt) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult(department);
@@ -124,7 +124,7 @@ public class DepartmentController {
         department.setStatus(2);
         //将实体对象进行包装，包装为操作条件
         Boolean ui =  departmentService.updateById(department);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("删除部门失败");
         }
         return generator.getSuccessResult();

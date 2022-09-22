@@ -64,7 +64,7 @@ public class SectorinfoController {
         }
         sectorinfo.setCreateTime(new Date());
         Boolean si = sectorinfoService.save(sectorinfo);
-        if (si != true) {
+        if (!si) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(sectorinfo);
@@ -92,7 +92,7 @@ public class SectorinfoController {
             }
         }
         Boolean si = sectorinfoService.updateById(sectorinfo);
-        if (si != true) {
+        if (!si) {
             return generator.getFailResult("修改失败");
         }
         return generator.getSuccessResult(sectorinfo);

@@ -55,7 +55,7 @@ public class DatainfoController {
         datainfo.setTestTime(new Date());
         datainfo.setDataStatus(0);
         Boolean ui = datainfoService.save(datainfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("添加失败");
         }
         map.put("dataId",datainfo.getDataId());
@@ -77,7 +77,7 @@ public class DatainfoController {
         datainfo.setDataStatus(1);
         //将实体对象进行包装，包装为操作条件
         Boolean ui =  datainfoService.updateById(datainfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("删除检验信息失败");
         }
         return generator.getSuccessResult();

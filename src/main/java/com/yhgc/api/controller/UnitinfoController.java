@@ -65,7 +65,7 @@ public class UnitinfoController {
     @PostMapping(value = "/saveAndUpdate")
     public RestResult addUnitInfo(@RequestBody Unitinfo unitinfo) {
         String unitName =unitinfo.getUnitName();
-        if (unitinfo == null) {
+        if (unitinfo ==null) {
             generator.getFailResult("单位信息不能为空");
         }
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
@@ -77,7 +77,7 @@ public class UnitinfoController {
         unitinfo.setCreateTime(new Date());
         unitinfo.setStatus(0);
         Boolean ui = unitinfoService.save(unitinfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("添加失败");
         }
         HashMap<String,Object> hashMap =new HashMap<>();
@@ -109,7 +109,7 @@ public class UnitinfoController {
         userinfo.setCreateTime(new Date());
         userinfo.setStatus(0);
         Boolean ui = userinfoService.save(userinfo);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("添加失败");
         }
         return generator.getSuccessResult(userinfo);
@@ -129,7 +129,7 @@ public class UnitinfoController {
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",unitinfo.getId());
         Boolean ui =  unitinfoService.update(unitinfo,queryWrapper);
-        if (ui != true) {
+        if (!ui) {
             return generator.getFailResult("删除单位信息失败");
         }
         QueryWrapper<Userinfo> query = new QueryWrapper<>();
@@ -138,7 +138,7 @@ public class UnitinfoController {
         for (Userinfo userinfo:list) {
             userinfo.setStatus(2);
             Boolean user =  userinfoService.update(userinfo,query);
-            if (user != true) {
+            if (!user) {
                 return generator.getFailResult("删除单位信息失败");
             }
         }
