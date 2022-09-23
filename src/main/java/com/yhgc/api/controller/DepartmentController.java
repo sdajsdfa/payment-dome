@@ -5,8 +5,7 @@ import com.yhgc.api.entity.Department;
 import com.yhgc.api.entity.Unitinfo;
 import com.yhgc.api.service.DepartmentService;
 import com.yhgc.api.service.UnitinfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +30,6 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @Resource
-    private ResultGenerator generator;
-
-    @Resource
     private UnitinfoService unitinfoService;
 
     /**
@@ -42,12 +38,12 @@ public class DepartmentController {
      */
     @ApiOperation("查询部门")
     @GetMapping(value = "/queryAllSectorInfo")
-    public RestResult queryDpts(Integer unitId) {
+    public R queryDpts(Integer unitId) {
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unitId",unitId);
         queryWrapper.eq("status",0);
         List<Department> department = departmentService.list(queryWrapper);
-        return generator.getSuccessResult(department);
+        return R.ok(department);
     }
 
     /**
@@ -58,15 +54,15 @@ public class DepartmentController {
      */
     @ApiOperation("修改单位信息")
     @PostMapping(value = "/updateUnitInfo")
-    public RestResult updateUnitInfo(@RequestBody Unitinfo unitInfo) {
+    public R updateUnitInfo(@RequestBody Unitinfo unitInfo) {
         unitInfo.setCreateTime(new Date());
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", unitInfo.getId());
         Boolean si = unitinfoService.update(unitInfo,queryWrapper);
         if (!si) {
-            return generator.getFailResult("修改失败");
+            return R.error("修改失败");
         }
-        return generator.getSuccessResult(unitInfo);
+        return R.ok(unitInfo);
     }
 
     /**
@@ -76,14 +72,14 @@ public class DepartmentController {
      */
     @ApiOperation("添加部门")
     @PostMapping(value = "/addDpt")
-    public RestResult addDpt(@RequestBody Department department) {
+    public R addDpt(@RequestBody Department department) {
         department.setCreateTime(new Date());
         department.setStatus(0);
         Boolean si = departmentService.save(department);
         if (!si) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
-        return generator.getSuccessResult(department);
+        return R.ok(department);
     }
 
     /**
@@ -93,15 +89,15 @@ public class DepartmentController {
      */
     @ApiOperation("修改部门信息")
     @PostMapping(value = "/updateDpt")
-    public RestResult updateDpt(@RequestBody Department department) {
+    public R updateDpt(@RequestBody Department department) {
         department.setCreateTime(new Date());
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", department.getId());
         Boolean dt = departmentService.update(department,queryWrapper);
         if (!dt) {
-            return generator.getFailResult("修改失败");
+            return R.error("修改失败");
         }
-        return generator.getSuccessResult(department);
+        return R.ok(department);
     }
 
     /**
@@ -111,14 +107,14 @@ public class DepartmentController {
      */
     @ApiOperation("删除部门")
     @PostMapping(value = "/deleteDpt")
-    public RestResult deleteDpt(@RequestBody Department department) {
+    public R deleteDpt(@RequestBody Department department) {
         department.setStatus(2);
         //将实体对象进行包装，包装为操作条件
         Boolean ui =  departmentService.updateById(department);
         if (!ui) {
-            return generator.getFailResult("删除部门失败");
+            return R.error("删除部门失败");
         }
-        return generator.getSuccessResult();
+        return R.ok();
     }
 }
 

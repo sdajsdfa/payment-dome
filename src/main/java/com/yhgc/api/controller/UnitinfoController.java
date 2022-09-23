@@ -7,8 +7,7 @@ import com.yhgc.api.entity.Userinfo;
 import com.yhgc.api.service.UnitinfoService;
 import com.yhgc.api.service.UserinfoLoginToken;
 import com.yhgc.api.service.UserinfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +36,6 @@ public class UnitinfoController {
     @Resource
     private UserinfoService userinfoService;
 
-    @Resource
-    private ResultGenerator generator;
     
     /**
      *查询所有单位
@@ -47,13 +44,13 @@ public class UnitinfoController {
     @UserinfoLoginToken
     @ApiOperation("查询所有单位")
     @GetMapping(value = "/queryAllUnitInfo")
-    public RestResult queryAllUnitInfo() {
+    public R queryAllUnitInfo() {
         Page<Unitinfo> page = new Page<>(1,10);
         //根据条件查询数据
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("status",0);
         IPage<Unitinfo> iPage = unitinfoService.page(page, queryWrapper);
-        return generator.getSuccessResult(iPage);
+        return R.ok(iPage);
     }
 
     /**
@@ -63,23 +60,23 @@ public class UnitinfoController {
      */
     @ApiOperation("添加单位信息")
     @PostMapping(value = "/saveAndUpdate")
-    public RestResult addUnitInfo(@RequestBody Unitinfo unitinfo) {
+    public R addUnitInfo(@RequestBody Unitinfo unitinfo) {
         String unitName =unitinfo.getUnitName();
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unitName",unitName);
         Unitinfo u = unitinfoService.getOne(queryWrapper);
         if (u != null){
-            return generator.getFailResult("单位名称已经被注册");
+            return R.error("单位名称已经被注册");
         }
         unitinfo.setCreateTime(new Date());
         unitinfo.setStatus(0);
         Boolean ui = unitinfoService.save(unitinfo);
         if (!ui) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
         HashMap<String,Object> hashMap =new HashMap<>();
         hashMap.put("unitId",unitinfo.getId());
-        return generator.getSuccessResult(hashMap);
+        return R.ok(hashMap);
     }
 
     /**
@@ -89,27 +86,27 @@ public class UnitinfoController {
      */
     @ApiOperation("添加单位管理员")
     @PostMapping(value = "/addUnitAdmin")
-    public RestResult addUnitAdmin(@RequestBody Userinfo userinfo) {
+    public R addUnitAdmin(@RequestBody Userinfo userinfo) {
         String account = userinfo.getAccount();
         String password = userinfo.getPassword();
         String idCard = userinfo.getIdCard();
         if (account==null || password==null || idCard==null) {
-            generator.getFailResult("单位管理员信息不能为空");
+            R.error("单位管理员信息不能为空");
         }
         QueryWrapper<Userinfo> queryWrapper = new QueryWrapper<>();
 //      queryWrapper.eq("account",account);
         queryWrapper.eq("idCard",idCard);
         Userinfo u =  userinfoService.getOne(queryWrapper);
         if (u != null){
-            return generator.getFailResult("身份证已经被注册");
+            return R.error("身份证已经被注册");
         }
         userinfo.setCreateTime(new Date());
         userinfo.setStatus(0);
         Boolean ui = userinfoService.save(userinfo);
         if (!ui) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
-        return generator.getSuccessResult(userinfo);
+        return R.ok(userinfo);
     }
 
     /**
@@ -119,7 +116,7 @@ public class UnitinfoController {
      */
     @ApiOperation("删除单位信息")
     @PostMapping(value = "/deleteUnitInfo")
-    public RestResult deleteUnitInfo(@RequestBody Unitinfo unitinfo) {
+    public R deleteUnitInfo(@RequestBody Unitinfo unitinfo) {
         //将实体对象进行包装，包装为操作条件
         unitinfo.setStatus(2);
         System.out.println(unitinfo.getId());
@@ -127,7 +124,7 @@ public class UnitinfoController {
         queryWrapper.eq("id",unitinfo.getId());
         Boolean ui =  unitinfoService.update(unitinfo,queryWrapper);
         if (!ui) {
-            return generator.getFailResult("删除单位信息失败");
+            return R.error("删除单位信息失败");
         }
         QueryWrapper<Userinfo> query = new QueryWrapper<>();
         query.eq("unitId",unitinfo.getId());
@@ -136,10 +133,10 @@ public class UnitinfoController {
             userinfo.setStatus(2);
             Boolean user =  userinfoService.update(userinfo,query);
             if (!user) {
-                return generator.getFailResult("删除单位信息失败");
+                return R.error("删除单位信息失败");
             }
         }
-        return generator.getSuccessResult();
+        return R.ok();
     }
 }
 

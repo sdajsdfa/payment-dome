@@ -2,8 +2,7 @@ package com.yhgc.api.controller;
 
 import com.yhgc.api.entity.Newsinfo;
 import com.yhgc.api.service.NewsinfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +27,6 @@ public class NewsinfoController {
     @Resource
     private NewsinfoService newsinfoService;
 
-    @Resource
-    private ResultGenerator generator;
 
     /**
      *  添加产品和新闻
@@ -38,15 +35,15 @@ public class NewsinfoController {
      */
     @ApiOperation("添加产品和新闻")
     @PostMapping(value = "/addNews")
-    public RestResult addNews(@RequestBody Newsinfo newsinfo) {
+    public R addNews(@RequestBody Newsinfo newsinfo) {
         newsinfo.setCreateTime(new Date());
         newsinfo.setDate(new Date());
         newsinfo.setStatus(0);
         Boolean si = newsinfoService.save(newsinfo);
         if (!si) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
-        return generator.getSuccessResult(newsinfo);
+        return R.ok(newsinfo);
     }
 
     /**
@@ -55,14 +52,14 @@ public class NewsinfoController {
      */
     @ApiOperation("查询产品和新闻最近各15条数据")
     @PostMapping(value = "/queryNews")
-    public RestResult queryNews() {
+    public R queryNews() {
         List<Newsinfo> newsinfo = newsinfoService.queryNews();
         List<Newsinfo> productinfo = newsinfoService.queryProduct();
         for (Newsinfo info:
         productinfo) {
             newsinfo.add(info);
         }
-        return generator.getSuccessResult(newsinfo);
+        return R.ok(newsinfo);
     }
 }
 

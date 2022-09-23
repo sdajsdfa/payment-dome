@@ -1,10 +1,8 @@
 package com.yhgc.api.controller;
 
-
 import com.yhgc.api.entity.Analysisinfo;
 import com.yhgc.api.service.AnalysisinfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,9 +30,6 @@ public class AnalysisinfoController {
     @Resource
     private AnalysisinfoService analysisinfoService;
 
-    @Resource
-    private ResultGenerator generator;
-
 
     /**
      * 添加数据分析结果
@@ -43,15 +38,15 @@ public class AnalysisinfoController {
      */
     @ApiOperation("添加数据分析结果")
     @PostMapping(value = "/addDpt")
-    public RestResult addDpt(@RequestBody Analysisinfo analysisinfo) {
+    public R addDpt(@RequestBody Analysisinfo analysisinfo) {
         analysisinfo.setAnalyFileTime(new Date());
         analysisinfo.setDeclareTime(new Date());
         analysisinfo.setDataStatus(0);
         Boolean ai = analysisinfoService.save(analysisinfo);
         if (!ai) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
-        return generator.getSuccessResult(analysisinfo);
+        return R.ok(analysisinfo);
     }
 
 
@@ -62,9 +57,9 @@ public class AnalysisinfoController {
      */
     @ApiOperation("查询统计数据分析结果")
     @PostMapping(value = "/countAnalysisResults")
-    public RestResult countAnalysisResults(Integer unitId){
+    public R countAnalysisResults(Integer unitId){
         List<Map<Date,Integer>> countAnalysis= analysisinfoService.countAnalysis(unitId);
-        return generator.getSuccessResult(countAnalysis);
+        return R.ok(countAnalysis);
     }
 
 }

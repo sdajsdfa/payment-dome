@@ -4,8 +4,7 @@ package com.yhgc.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Datainfo;
 import com.yhgc.api.service.DatainfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.net.ftp.FTP;
@@ -33,10 +32,6 @@ public class DatainfoController {
     @Resource
     private DatainfoService datainfoService;
 
-    @Resource
-    private ResultGenerator generator;
-
-
     /**
      *  上传检测数据
      * @param datainfo
@@ -44,7 +39,7 @@ public class DatainfoController {
      */
     @ApiOperation("上传检测数据")
     @PostMapping(value = "/uploadTestInfo")
-    public RestResult uploadTestInfo(@RequestBody Datainfo datainfo) {
+    public R uploadTestInfo(@RequestBody Datainfo datainfo) {
         Map<String,Object> map = new HashMap<>();
         datainfo.setAnalyFileTime(new Date());
         datainfo.setOrginFileTime(new Date());
@@ -53,11 +48,11 @@ public class DatainfoController {
         datainfo.setDataStatus(0);
         Boolean ui = datainfoService.save(datainfo);
         if (!ui) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
         map.put("dataId",datainfo.getDataId());
         map.put("uploadTime",datainfo.getUploadTime());
-        return generator.getSuccessResult(map);
+        return R.ok(map);
     }
 
     /**
@@ -67,17 +62,14 @@ public class DatainfoController {
      */
     @ApiOperation("删除检验信息")
     @PostMapping(value = "/deleteTestInfo")
-    public RestResult deleteTestInfo(@RequestBody Datainfo datainfo) {
-        if(datainfo.getDataId() == null){
-            generator.getFailResult("检验信息id不能为空");
-        }
+    public R deleteTestInfo(@RequestBody Datainfo datainfo) {
         datainfo.setDataStatus(1);
         //将实体对象进行包装，包装为操作条件
         Boolean ui =  datainfoService.updateById(datainfo);
         if (!ui) {
-            return generator.getFailResult("删除检验信息失败");
+            return R.error("删除检验信息失败");
         }
-        return generator.getSuccessResult();
+        return R.ok();
     }
 
     /**
@@ -87,9 +79,9 @@ public class DatainfoController {
      */
     @ApiOperation("查询文件详细信息")
     @GetMapping(value = "/queryFileInfo")
-    public RestResult queryFileInfo(Integer dataId) {
+    public R queryFileInfo(Integer dataId) {
         Datainfo datainfo = datainfoService.getById(dataId);
-        return generator.getSuccessResult(datainfo);
+        return R.ok(datainfo);
     }
 
     /**
@@ -102,7 +94,7 @@ public class DatainfoController {
      */
     @ApiOperation("上传原始文件")
     @PostMapping("/uploadOriginFile")
-    public RestResult uploadOriginFile(MultipartFile multipartFile, Integer dataId, Integer unitId, String serialNo , Integer fileType)
+    public R uploadOriginFile(MultipartFile multipartFile, Integer dataId, Integer unitId, String serialNo , Integer fileType)
     {
         //指定存放上传文件的目录
         String fileDir = "C:\\ftp\\home\\"+unitId+"\\"+serialNo;
@@ -132,7 +124,7 @@ public class DatainfoController {
             queryWrapper.eq("dataId", dataId);
             Boolean da = datainfoService.update(datainfo,queryWrapper);
             if(da==false){
-                return generator.getFailResult("文件修改失败");
+                return R.error("文件修改失败");
             }
         } catch (IOException e) {
             System.out.println("上传文件失败！");
@@ -144,15 +136,15 @@ public class DatainfoController {
         if (uploadToFtp(file,unitId,serialNo,fileType)){
             if(fileType==1){
                 hashMap.put("orginFilePath",file);
-                return generator.getSuccessResult(hashMap);
+                return R.ok(hashMap);
             }else {
                 hashMap.put("analysisFilePath",file);
-                return generator.getSuccessResult(hashMap);
+                return R.ok(hashMap);
             }
         }else {
             //2、删除本地文件
             file.delete();
-            return generator.getFailResult("上传至ftp服务器失败!");
+            return R.error("上传至ftp服务器失败!");
         }
 
     }
@@ -246,7 +238,7 @@ public class DatainfoController {
      */
     @ApiOperation("个人数据统计")
     @PostMapping("/countPersonalData")
-    public RestResult countPersonalData(Integer userId){
+    public R countPersonalData(Integer userId){
        Map<String,Object> map = new HashMap();
        Integer projectNum = datainfoService.countProjectinfo(userId);
        Integer fileNum =  datainfoService.countFile(userId);
@@ -260,7 +252,7 @@ public class DatainfoController {
        map.put("machineNum",machineNum);
        map.put("sevenDaysUploadNum",sevenDaysUploadNum);
        map.put("sevenDaysAnalysisNum",sevenDaysAnalysisNum);
-       return generator.getSuccessResult(map);
+       return R.ok(map);
     }
 }
 

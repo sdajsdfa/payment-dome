@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yhgc.api.entity.Sectorinfo;
 import com.yhgc.api.service.SectorinfoService;
-import com.yhgc.api.vo.RestResult;
-import com.yhgc.api.vo.ResultGenerator;
+import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +27,6 @@ public class SectorinfoController {
     @Resource
     private SectorinfoService sectorinfoService;
 
-    @Resource
-    private ResultGenerator generator;
 
     /**
      *查询所有行业分类
@@ -37,11 +34,11 @@ public class SectorinfoController {
      */
     @ApiOperation("查询所有行业分类")
     @GetMapping(value = "/queryAllSectorInfo")
-    public RestResult queryAllSectorInfo() {
+    public R queryAllSectorInfo() {
         Page<Sectorinfo> page = new Page<>(1,10);
         //根据条件查询数据
         IPage<Sectorinfo> iPage = sectorinfoService.page(page, null);
-        return generator.getSuccessResult(iPage);
+        return R.ok(iPage);
     }
 
     /**
@@ -51,20 +48,20 @@ public class SectorinfoController {
      */
     @ApiOperation("添加行业分类")
     @PostMapping(value = "/addSectorInfo")
-    public RestResult addSectorInfo(@RequestBody Sectorinfo sectorinfo) {
+    public R addSectorInfo(@RequestBody Sectorinfo sectorinfo) {
         String sectorName = sectorinfo.getSectorName();
         QueryWrapper<Sectorinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("sectorName",sectorName);
         Sectorinfo s =  sectorinfoService.getOne(queryWrapper);
         if (s != null){
-            return generator.getFailResult("行业名称已经被注册");
+            return R.error("行业名称已经被注册");
         }
         sectorinfo.setCreateTime(new Date());
         Boolean si = sectorinfoService.save(sectorinfo);
         if (!si) {
-            return generator.getFailResult("添加失败");
+            return R.error("添加失败");
         }
-        return generator.getSuccessResult(sectorinfo);
+        return R.ok(sectorinfo);
     }
 
     /**
@@ -74,10 +71,7 @@ public class SectorinfoController {
      */
     @ApiOperation("修改行业分类")
     @PostMapping(value = "/updateSectorInfo")
-    public RestResult updateSectorInfo(@RequestBody Sectorinfo sectorinfo) {
-        if (sectorinfo == null) {
-            generator.getFailResult("行业分类不能为空");
-        }
+    public R updateSectorInfo(@RequestBody Sectorinfo sectorinfo) {
         QueryWrapper<Sectorinfo> query = new QueryWrapper<>();
         query.eq("sectorName",sectorinfo.getSectorName());
         Sectorinfo s =  sectorinfoService.getOne(query);
@@ -85,14 +79,14 @@ public class SectorinfoController {
         if(s != null){
             if(sectorinfo.getId().equals(s.getId())){
             }else {
-                return generator.getFailResult("行业名称已经被注册");
+                return R.error("行业名称已经被注册");
             }
         }
         Boolean si = sectorinfoService.updateById(sectorinfo);
         if (!si) {
-            return generator.getFailResult("修改失败");
+            return R.error("修改失败");
         }
-        return generator.getSuccessResult(sectorinfo);
+        return R.ok(sectorinfo);
     }
 }
 
