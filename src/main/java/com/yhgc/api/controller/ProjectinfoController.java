@@ -65,9 +65,6 @@ public class ProjectinfoController {
     @ApiOperation("修改工程信息")
     @PostMapping(value = "/update")
     public RestResult update(@RequestBody Projectinfo projectinfo) {
-        if (projectinfo == null) {
-            generator.getFailResult("工程信息不能为空");
-        }
         projectinfo.setCreateTime(new Date());
         projectinfo.setDeclareTime(new Date());
         QueryWrapper<Projectinfo> queryWrapper = new QueryWrapper<>();

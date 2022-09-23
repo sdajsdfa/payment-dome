@@ -53,9 +53,6 @@ public class SectorinfoController {
     @PostMapping(value = "/addSectorInfo")
     public RestResult addSectorInfo(@RequestBody Sectorinfo sectorinfo) {
         String sectorName = sectorinfo.getSectorName();
-        if (sectorinfo == null) {
-            generator.getFailResult("行业分类不能为空");
-        }
         QueryWrapper<Sectorinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("sectorName",sectorName);
         Sectorinfo s =  sectorinfoService.getOne(queryWrapper);

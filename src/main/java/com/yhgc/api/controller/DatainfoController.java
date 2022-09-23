@@ -46,9 +46,6 @@ public class DatainfoController {
     @PostMapping(value = "/uploadTestInfo")
     public RestResult uploadTestInfo(@RequestBody Datainfo datainfo) {
         Map<String,Object> map = new HashMap<>();
-        if (datainfo == null) {
-            generator.getFailResult("单位信息不能为空");
-        }
         datainfo.setAnalyFileTime(new Date());
         datainfo.setOrginFileTime(new Date());
         datainfo.setUploadTime(new Date());

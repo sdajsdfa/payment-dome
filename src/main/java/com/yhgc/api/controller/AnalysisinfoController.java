@@ -44,9 +44,6 @@ public class AnalysisinfoController {
     @ApiOperation("添加数据分析结果")
     @PostMapping(value = "/addDpt")
     public RestResult addDpt(@RequestBody Analysisinfo analysisinfo) {
-        if (analysisinfo == null) {
-            generator.getFailResult("数据分析结果不能为空");
-        }
         analysisinfo.setAnalyFileTime(new Date());
         analysisinfo.setDeclareTime(new Date());
         analysisinfo.setDataStatus(0);

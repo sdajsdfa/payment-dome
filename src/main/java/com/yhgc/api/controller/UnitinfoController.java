@@ -65,9 +65,6 @@ public class UnitinfoController {
     @PostMapping(value = "/saveAndUpdate")
     public RestResult addUnitInfo(@RequestBody Unitinfo unitinfo) {
         String unitName =unitinfo.getUnitName();
-        if (unitinfo ==null) {
-            generator.getFailResult("单位信息不能为空");
-        }
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unitName",unitName);
         Unitinfo u = unitinfoService.getOne(queryWrapper);

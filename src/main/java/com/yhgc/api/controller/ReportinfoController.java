@@ -77,9 +77,6 @@ public class ReportinfoController {
     @PostMapping(value = "/uploadReportTemplateCount")
     public RestResult uploadReportTemplateCount(Integer id,Integer countAdd) {
         Reportinfo reportinfo = reportinfoService.getById(id);
-        if(reportinfo==null){
-            return generator.getFailResult("报告模板不能为空");
-        }
         reportinfo.setCount(countAdd);
         Boolean ri = reportinfoService.updateById(reportinfo);
         if (!ri) {

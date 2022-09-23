@@ -69,9 +69,6 @@ public class UserinfoController {
         queryWrapper.eq("account", account);
         queryWrapper.eq("status", 0);
         Userinfo userinfo = userinfoService.getOne(queryWrapper);
-        if (userinfo == null) {
-            return generator.getFailResult("找不到用户信息");
-        }
         String md5Password = getMd5(password, account);
         if (!userinfo.getPassword().equals(md5Password)) {
             return generator.getFailResult("密码不正确");

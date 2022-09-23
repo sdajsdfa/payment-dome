@@ -59,9 +59,6 @@ public class DepartmentController {
     @ApiOperation("修改单位信息")
     @PostMapping(value = "/updateUnitInfo")
     public RestResult updateUnitInfo(@RequestBody Unitinfo unitInfo) {
-        if (unitInfo == null) {
-            generator.getFailResult("单位信息不能为空");
-        }
         unitInfo.setCreateTime(new Date());
         QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", unitInfo.getId());
@@ -80,9 +77,6 @@ public class DepartmentController {
     @ApiOperation("添加部门")
     @PostMapping(value = "/addDpt")
     public RestResult addDpt(@RequestBody Department department) {
-        if (department == null) {
-            generator.getFailResult("部门不能为空");
-        }
         department.setCreateTime(new Date());
         department.setStatus(0);
         Boolean si = departmentService.save(department);
@@ -100,9 +94,6 @@ public class DepartmentController {
     @ApiOperation("修改部门信息")
     @PostMapping(value = "/updateDpt")
     public RestResult updateDpt(@RequestBody Department department) {
-        if (department == null) {
-            generator.getFailResult("部门不能为空");
-        }
         department.setCreateTime(new Date());
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", department.getId());

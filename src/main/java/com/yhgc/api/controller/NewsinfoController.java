@@ -39,9 +39,6 @@ public class NewsinfoController {
     @ApiOperation("添加产品和新闻")
     @PostMapping(value = "/addNews")
     public RestResult addNews(@RequestBody Newsinfo newsinfo) {
-        if (newsinfo == null) {
-            generator.getFailResult("产品和新闻不能为空");
-        }
         newsinfo.setCreateTime(new Date());
         newsinfo.setDate(new Date());
         newsinfo.setStatus(0);
