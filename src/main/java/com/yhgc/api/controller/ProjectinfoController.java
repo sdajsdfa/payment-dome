@@ -2,6 +2,7 @@ package com.yhgc.api.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Projectinfo;
+import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.ProjectfilesService;
 import com.yhgc.api.service.ProjectinfoService;
 import com.yhgc.api.util.R;
@@ -65,7 +66,7 @@ public class ProjectinfoController {
         projectinfo.setDeclareTime(new Date());
         QueryWrapper<Projectinfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", projectinfo.getId());
-        queryWrapper.eq("status", 0);
+        queryWrapper.eq("status", 1);
         Boolean p = projectinfoService.update(projectinfo,queryWrapper);
         if (!p) {
             return R.error("修改失败");
@@ -75,15 +76,18 @@ public class ProjectinfoController {
 
     /**
      * 删除工程信息
-     * @param projectinfo
+     * @param id
      * @return
      */
     @ApiOperation("删除工程")
-    @PostMapping (value = "/deleteProject")
-    public R deleteProject(@RequestBody Projectinfo projectinfo) {
-        projectinfo.setStatus(2);
+    @GetMapping  (value = "/deleteProject")
+    public R deleteProject(Long id) {
+        QueryWrapper<Projectinfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        Projectinfo projectinfo = new Projectinfo();
+        projectinfo.setStatus(StatusEnum.DELETE.getCode());
         //将实体对象进行包装，包装为操作条件
-        Boolean pi =  projectinfoService.updateById(projectinfo);
+        Boolean pi =  projectinfoService.update(projectinfo,queryWrapper);
         if (!pi) {
             return R.error("删除工程信息失败");
         }

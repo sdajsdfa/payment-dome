@@ -57,15 +57,18 @@ public class DatainfoController {
 
     /**
      * 删除检验信息
-     * @param datainfo
+     * @param id
      * @return
      */
     @ApiOperation("删除检验信息")
-    @PostMapping(value = "/deleteTestInfo")
-    public R deleteTestInfo(@RequestBody Datainfo datainfo) {
+    @GetMapping (value = "/deleteTestInfo")
+    public R deleteTestInfo(Long id) {
+        QueryWrapper<Datainfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        Datainfo datainfo = new Datainfo();
         datainfo.setDataStatus(1);
         //将实体对象进行包装，包装为操作条件
-        Boolean ui =  datainfoService.updateById(datainfo);
+        Boolean ui =  datainfoService.update(datainfo,queryWrapper);
         if (!ui) {
             return R.error("删除检验信息失败");
         }
@@ -123,7 +126,7 @@ public class DatainfoController {
             QueryWrapper<Datainfo> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("dataId", dataId);
             Boolean da = datainfoService.update(datainfo,queryWrapper);
-            if(da==false){
+            if(!da){
                 return R.error("文件修改失败");
             }
         } catch (IOException e) {

@@ -3,6 +3,7 @@ package com.yhgc.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Department;
 import com.yhgc.api.entity.Unitinfo;
+import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.DepartmentService;
 import com.yhgc.api.service.UnitinfoService;
 import com.yhgc.api.util.R;
@@ -102,15 +103,18 @@ public class DepartmentController {
 
     /**
      * 删除部门
-     * @param department
+     * @param id
      * @return
      */
     @ApiOperation("删除部门")
-    @PostMapping(value = "/deleteDpt")
-    public R deleteDpt(@RequestBody Department department) {
-        department.setStatus(2);
+    @GetMapping(value = "/deleteDpt")
+    public R deleteDpt(Long id) {
+        QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        Department department = new Department();
+        department.setStatus(StatusEnum.DELETE.getCode());
         //将实体对象进行包装，包装为操作条件
-        Boolean ui =  departmentService.updateById(department);
+        Boolean ui =  departmentService.update(department,queryWrapper);
         if (!ui) {
             return R.error("删除部门失败");
         }
