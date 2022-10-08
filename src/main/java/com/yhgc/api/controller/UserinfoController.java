@@ -97,7 +97,7 @@ public class UserinfoController {
      */
     @ApiOperation("添加人员")
     @PostMapping(value = "/addUser")
-    public R addUser(@RequestBody Userinfo userinfo) throws Exception {
+    public R addUser(@RequestBody Userinfo userinfo){
         String account = userinfo.getAccount();
         String password = userinfo.getPassword();
         String idCard = userinfo.getIdCard();
@@ -245,7 +245,7 @@ public class UserinfoController {
      */
     @ApiOperation("生成图片验证码")
     @GetMapping("/getCodeImg")
-    public void getCodeImage(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession) throws IOException, InterruptedException {
+    public void getCodeImage(HttpServletRequest request, HttpServletResponse response, HttpSession httpSession) throws IOException {
         BufferedImage image=new BufferedImage(80, 32, BufferedImage.TYPE_3BYTE_BGR);
         //编辑图像
         //获取绘图对象
