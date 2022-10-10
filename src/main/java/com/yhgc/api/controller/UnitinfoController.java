@@ -111,30 +111,34 @@ public class UnitinfoController {
 
     /**
      * 删除单位信息
-     * @param unitinfo
+     * @param id
      * @return
      */
     @ApiOperation("删除单位信息")
-    @PostMapping(value = "/deleteUnitInfo")
-    public R deleteUnitInfo(@RequestBody Unitinfo unitinfo) {
-        //将实体对象进行包装，包装为操作条件
-        unitinfo.setStatus(2);
-        System.out.println(unitinfo.getId());
-        QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",unitinfo.getId());
-        Boolean ui =  unitinfoService.update(unitinfo,queryWrapper);
-        if (!ui) {
-            return R.error("删除单位信息失败");
-        }
-        QueryWrapper<Userinfo> query = new QueryWrapper<>();
-        query.eq("unitId",unitinfo.getId());
-        List<Userinfo> list = userinfoService.list(query);
-        for (Userinfo userinfo:list) {
-            userinfo.setStatus(2);
-            Boolean user =  userinfoService.update(userinfo,query);
-            if (!user) {
+    @GetMapping(value = "/deleteUnitInfo")
+    public R deleteUnitInfo(Long id) {
+        try{
+            Unitinfo unitinfo = new Unitinfo();
+            //将实体对象进行包装，包装为操作条件
+            unitinfo.setStatus(2);
+            QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("id",id);
+            Boolean ui =  unitinfoService.update(unitinfo,queryWrapper);
+            if (!ui) {
                 return R.error("删除单位信息失败");
             }
+            QueryWrapper<Userinfo> query = new QueryWrapper<>();
+            query.eq("unitId",id);
+            List<Userinfo> list = userinfoService.list(query);
+            for (Userinfo userinfo:list) {
+                userinfo.setStatus(2);
+                Boolean user =  userinfoService.update(userinfo,query);
+                if (!user) {
+                    return R.error("删除单位信息失败");
+                }
+            }
+        }catch (Exception e){
+            return R.error("删除失败");
         }
         return R.ok();
     }
