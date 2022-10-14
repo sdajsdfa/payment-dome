@@ -34,8 +34,8 @@ public class SectorinfoController {
      */
     @ApiOperation("查询所有行业分类")
     @GetMapping(value = "/queryAllSectorInfo")
-    public R queryAllSectorInfo() {
-        Page<Sectorinfo> page = new Page<>(1,10);
+    public R queryAllSectorInfo(Integer pagesize, Integer pagenum) {
+        Page<Sectorinfo> page = new Page<>(pagenum,pagesize);
         //根据条件查询数据
         IPage<Sectorinfo> iPage = sectorinfoService.page(page, null);
         return R.ok(iPage);
