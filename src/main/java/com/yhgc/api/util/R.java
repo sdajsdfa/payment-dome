@@ -17,7 +17,7 @@ public class R extends HashMap<String, Object> {
 	}
 
 	public static R error(String msg) {
-		return error(500, msg);
+		return error(400, msg);
 	}
 
 	public static R error(int code, String msg) {
@@ -29,24 +29,34 @@ public class R extends HashMap<String, Object> {
 
 	public static R ok(List<Object> list) {
 		R r = new R();
+		r.put("code",HttpStatus.SUCCESS);
 		r.put("data", list);
+		return r;
+	}
+
+	public static R  exist(){
+		R r = new R();
+		r.put("code",HttpStatus.EXIST);
 		return r;
 	}
 
 	public static R ok(Object object) {
 		R r = new R();
+		r.put("code",HttpStatus.SUCCESS);
 		r.put("data", object);
 		return r;
 	}
 
 	public static R ok(String msg) {
 		R r = new R();
+		r.put("code",HttpStatus.SUCCESS);
 		r.put("msg", msg);
 		return r;
 	}
 
 	public static R ok(Map<String, Object> map) {
 		R r = new R();
+		r.put("code",HttpStatus.SUCCESS);
 		r.putAll(map);
 		return r;
 	}
