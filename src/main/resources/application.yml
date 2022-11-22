@@ -1,7 +1,10 @@
 # 应用名称
 server:
   port: 8090
-
+  ssl:
+    key-store: classpath:pp.yishengxiongpe.cn.jks
+    key-store-password: no2e3nr6hxc9
+    key-store-type: JKS
 spring:
   application:
     name: payment-dome

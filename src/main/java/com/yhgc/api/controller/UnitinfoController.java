@@ -43,7 +43,7 @@ public class UnitinfoController {
      */
     @UserinfoLoginToken
     @ApiOperation("查询所有单位")
-    @GetMapping(value = "/queryAllUnitInfo")
+    @PostMapping(value = "/queryAllUnitInfo")
     public R queryAllUnitInfo() {
         Page<Unitinfo> page = new Page<>(1,10);
         //根据条件查询数据
