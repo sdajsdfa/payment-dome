@@ -88,5 +88,9 @@ public class Serverlist implements Serializable {
     @JsonProperty("ProxyType")
     private String proxyType;
 
+    @ApiModelProperty(value = "标识")
+    @TableField("mark")
+    @JsonProperty("Mark")
+    private Integer mark;
 
 }

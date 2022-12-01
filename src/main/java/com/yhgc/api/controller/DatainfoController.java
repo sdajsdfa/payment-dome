@@ -156,10 +156,10 @@ public class DatainfoController {
         FTPClient ftpClient = new FTPClient();
         try {
             //连接ftp服务器 参数填服务器的ip
-            ftpClient.connect("192.168.10.111");
+            ftpClient.connect("120.79.64.245");
 
             //进行登录 参数分别为账号 密码
-            ftpClient.login("dell","123456");
+            ftpClient.login("ftptest","Yi123456");
 
             if(fileType==1) {
                 //改变工作目录（按自己需要是否改变）
