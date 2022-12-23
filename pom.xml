@@ -119,6 +119,12 @@
             <version>3.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
         <!-- 代码生成器依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -166,6 +172,42 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <!--引入Spring Boot内嵌的Tomcat对JSP的解析包，不加解析不了jsp页面-->
+        <!--如果只是使用JSP页面，可以只添加该依赖-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--如果使用JSTL必须添加该依赖-->
+        <!--jstl标签依赖的jar包start-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+        <!-- 添加servlet依赖模块 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--添加tomcat依赖模块.-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--webserver-->
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>ksoap2-android-assembly</artifactId>
+            <version>3.1.1-jar-with-dependencies</version>
+        </dependency>
+
         <!-- 测试类-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -202,6 +244,22 @@
                 </includes>
                 <filtering>false</filtering>
             </resource>
+            <resource>
+                <!--源文件位置-->
+                <directory>src/main/webapps</directory>
+                <!--指定编译到META-INF/resources，该目录不能随便写-->
+                <targetPath>META-INF/resources</targetPath>
+                <!--指定要把哪些文件编译进去，**表示webapp目录及子目录，*.*表示所有文件-->
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <plugin>
@@ -226,6 +284,32 @@
                         <id>repackage</id>
                         <goals>
                             <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-ksoap2-android-assembly-3.1.1-jar-with-dependencies.jar</id>
+                        <!-- 阶段：设定在 mvn clean 时执行安装,如果设定为 validate，那么就是在 mvn validate 时才安装 -->
+                        <phase>clean</phase>
+                        <configuration>
+                            <!-- 路径：这就是刚才添加的 jar 路径 -->
+                            <file>${project.basedir}/src/main/resources/lib/ksoap2-android-assembly-3.1.1-jar-with-dependencies.jar</file>
+                            <!-- 属性：下面的这三个属性，就是后面我们添加依赖时的值 -->
+                            <groupId>org</groupId>
+                            <artifactId>ksoap2-android-assembly</artifactId>
+                            <version>3.1.1-jar-with-dependencies</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <!-- 目标：安装外部的 jar 文件到 maven 本地仓库 -->
+                            <goal>install-file</goal>
                         </goals>
                     </execution>
                 </executions>

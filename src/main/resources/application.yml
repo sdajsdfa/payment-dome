@@ -6,6 +6,10 @@ server:
     key-store-password: no2e3nr6hxc9
     key-store-type: JKS
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
   application:
     name: payment-dome
   jackson:
@@ -25,3 +29,12 @@ redis:
   host: 127.0.0.1
   post: 6379
 
+#ftp相关  这里的ip是ftp服务器ip, 我是在已有服务器172.16.1.13上测试的,不是在刚设置的172.16.1.20上测试的,填写自己的ftp服务器IP即可
+ftp:
+  account: ftptest
+  password: Yi123456
+  port: 21
+  server: 120.79.64.245
+  fileFolder: /provide
+  #ftp 上传访问头
+  url: http://120.79.64.245:8999
