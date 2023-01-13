@@ -26,13 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(UserLoginInterceptor())
                 .addPathPatterns("/**") // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
                 .excludePathPatterns(
-//                        "/userinfo/login/**",
-//                        "/userinfo/getCodeImg/**"
-//                        "/userinfo/getCode/**"
-//                        "/**"
-                        "/applogin",
+                        "/appLogin",
                         "/assets/**/**/**",
-                        "/login"
+                        "/login",
+                         "/serverlist/queryAllServerlist",
+                         "/serverlist/downloadFromJc"
                 );
 
     }

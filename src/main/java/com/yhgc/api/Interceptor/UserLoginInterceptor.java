@@ -1,14 +1,19 @@
 package com.yhgc.api.Interceptor;
 
+import com.yhgc.api.controller.AppuserController;
 import com.yhgc.api.entity.Appuser;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UserLoginInterceptor implements HandlerInterceptor {
+
+    @Resource
+    private HttpSession session;
 
     /***
      * 在请求处理之前进行调用(Controller方法调用之前)
@@ -16,13 +21,21 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            HttpSession session = request.getSession();
+            String sessionIdStr = "";
             //统一拦截（查询当前session是否存在user）(这里user会在每次登录成功后，写入session)
-            Appuser appuser = (Appuser) session.getAttribute("appuser");
-            if (appuser != null) {
+            Cookie[] cookies = request.getCookies();
+            if (null != cookies) {
+                for (Cookie cookie : cookies) {
+                    if ("JSESSIONID".equals(cookie.getName())) {
+                        sessionIdStr = cookie.getValue();
+                    }
+                }
+            }
+            Appuser loginUser = AppuserController.sessionUsermap.get(sessionIdStr);
+            if (loginUser != null) {
                 return true;
             }
-            response.sendRedirect(request.getContextPath() + "applogin");
+            response.sendRedirect("/appLogin");
         } catch (Exception e) {
             e.printStackTrace();
         }

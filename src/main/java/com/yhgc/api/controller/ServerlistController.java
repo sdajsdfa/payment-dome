@@ -104,7 +104,7 @@ public class ServerlistController {
      * @return
      */
     @ApiOperation("更新服务器列表")
-    @PostMapping (value = "/downloadFromJc")
+    @GetMapping (value = "/downloadFromJc")
     @Scheduled(cron = "0 0 2 ? * *") // cron表达式：每天 0:0:2 执行
     public R downloadFromJc() throws JsonProcessingException {
         SoapObject soapObject = new SoapObject("http://rsonline.net.cn/", "ServerShortInfoJsonListV3");

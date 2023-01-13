@@ -20,11 +20,13 @@
     <script src="/assets/bootstrap/js/fileinput.min.js"></script>
     <script src="/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
     <script src="/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script type="text/javascript" src="/assets/bootstrap/js/zh.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/bootstrap-table/css/bootstrap-table.css">
     <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/style.css">
     <link rel="stylesheet" href="/assets/bootstrap/css/fileinput.min.css"/>
+
 
 
     <style>
@@ -175,9 +177,9 @@
                                     <button type="button" class="btn btn-danger" id="delBtn2"><span
                                             class="glyphicon glyphicon-trash" style="margin-right: 5px;"></span>删除
                                     </button>
-                                    <button type="button" class="btn btn-warning" id="serviceBtn2"><span
-                                            class="glyphicon glyphicon-globe" style="margin-right: 5px;"></span>接口管理
-                                    </button>
+<%--                                    <button type="button" class="btn btn-warning" id="serviceBtn2"><span--%>
+<%--                                            class="glyphicon glyphicon-globe" style="margin-right: 5px;"></span>接口管理--%>
+<%--                                    </button>--%>
                                 </div>
                             </div>
                             <div class="columns columns-right btn-group pull-right">
@@ -398,12 +400,12 @@
             <div class="modal-body">
                 <div class="AppVerTips">
                 </div>
-                <form class="form-horizontal" id="AppVerform">
+                <form class="form-horizontal" id="AppVerform" >
                     <div class="form-group">
                         <label for="AppId" class="col-sm-2 control-label"><span class="c-red">*</span>APP名称:</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="AppId" id="AppId">
-                                <option value="">--请选择--</option>
+<%--                                <option value="">--请选择--</option>--%>
                             </select>
                         </div>
                     </div>
@@ -434,6 +436,7 @@
                                 class="c-red">*</span>APP普通文件:</label>
                         <div class="col-sm-10">
                             <input type="file" class="form-control" name="RegularFile" id="RegularFile" multiple="multiple"  >
+                            <span id="birthRegularFile"></span>
                         </div>
                     </div>
 
@@ -442,6 +445,7 @@
                                 class="c-red">*</span>APPjson文件:</label>
                         <div class="col-sm-10">
                             <input type="file" class="form-control" name="JsonFile" id="JsonFile" multiple="multiple"    >
+                            <span id="birthJsonFile"></span>
                         </div>
                     </div>
 
@@ -468,6 +472,72 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" onclick="saveAppSev()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--APP版本管理-->
+<!--编辑app版本-->
+<div class="modal fade bs-example-modal-lg" id="editAAppVerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="editAAPPModalLabel">编辑APP版本信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="AppVerTipsA">
+                </div>
+                <form class="form-horizontal" id="editAAppPerform">
+                    <div class="form-group">
+                        <label for="AppIds" class="col-sm-2 control-label"><span class="c-red">*</span>APP名称:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="AppIds" id="AppIds">
+<%--                                <option value="">--请选择--</option>--%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AppVer" class="col-sm-2 control-label"><span class="c-red">*</span>App版本:</label>
+                        <div class="col-sm-10">
+                            <input type="text"  onkeyup="value=value.replace(/[^\d^\.]+/g,'')"  class="form-control" id="AppVer" name="AppVer">
+                            <input type="hidden" class="form-control" id="Id" name="Id">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AppDate" class="col-sm-2 control-label"><span class="c-red">*</span>App上线日期:</label>
+                        <div class="col-sm-10">
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" class="form-control Wdate"
+                                   name="AppDate">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AppFlag" class="col-sm-2 control-label"><span class="c-red">*</span>App状态:</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="AppFlag" id="AppFlag" value="1">启动
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="AppFlag" id="AppFlag" value="0">
+                                禁止
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="remark" class="col-sm-2 control-label"><span class="c-red">*</span>备注信息:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3" name="remarks" id="remarks"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="editAppSev()">提交</button>
             </div>
         </div>
     </div>
@@ -578,6 +648,9 @@
 <script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
 
 <script>
+    var rowsInfo;
+    let dateIndex = "";
+
     $("#radio").prop('checked', true);//radio
 
     function btn_add(){
@@ -591,7 +664,7 @@
         allowedFileExtensions: ['json'],//接收的文件后缀
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
-        showRemove : true, //显示移除按钮
+        showRemove : false, //显示移除按钮
         showPreview : false, //是否显示预览
         showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式
@@ -599,6 +672,9 @@
         maxFileCount: 1, //表示允许同时上传的最大文件个数
         enctype: 'multipart/form-data',
         validateInitialCount:false,
+        uploadExtraData:function(){
+            return {"id":rowsInfo.AppId}
+        }
     });
     let jsonFile="";
     //异步上传返回结果处理
@@ -608,35 +684,42 @@
         if(response.code=200){
 
             jsonFile = response.JsonFile;
-            $("#JsonFile").remove();
-            $("#JsonFile").val(jsonFile)
+            // $("#JsonFile").remove();
+            // $("#JsonFile").val(jsonFile)
+
             // $("#JsonFile").val(jsonFile);
             // $("#fileMd5").val(response.fileMd5);
             // $("#version").val(response.newVersionName);
             // $("#url").val(response.filePath);
+            // this.data.target.value = ""
+            if(jsonFile!=null || jsonFile!="") {
+                $("#birthJsonFile").text("");
+            }
         }
     });
     //上传前
-
     $('#JsonFile').on('filepreupload', function(event, data, previewId, index) {
         var form = data.form, files = data.files, extra = data.extra,
             response = data.response, reader = data.reader;
     });
-
+    var picArr = [];
     $("#RegularFile").fileinput({
-        language: 'zh', //设置语言
+        language : 'zh', //设置语言
         uploadUrl: "/appversionlist/apk_upload", //上传的地址
         allowedFileExtensions: ['apk'],//接收的文件后缀
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
-        showRemove : true, //显示移除按钮
+        showRemove : false, //显示移除按钮
         showPreview : false, //是否显示预览
         showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式
         dropZoneEnabled: false,//是否显示拖拽区域
         maxFileCount: 1, //表示允许同时上传的最大文件个数
         enctype: 'multipart/form-data',
-        validateInitialCount:false
+        validateInitialCount:false,
+        uploadExtraData:function(){
+            return {"id":rowsInfo.AppId}
+        }
 
     });
     let regularFile="";
@@ -647,12 +730,16 @@
         if(response.code=200){
             // alert(response.RegularFile);
             regularFile = response.RegularFile;
-           $("#RegularFile").remove();
-           $("#RegularFile").val(regularFile)
+           // $("#RegularFile").remove();
+           // $("#RegularFile").val(regularFile)
+
            // console.log($("#RegularFile").val()) ;
             // $("#fileMd5").val(response.fileMd5);
             // $("#version").val(response.newVersionName);
             // $("#url").val(response.filePath);
+            if(regularFile!=null || regularFile!="") {
+                $("#birthRegularFile").text("");
+            }
         }
     });
     //上传前
@@ -719,6 +806,8 @@
             });
         }
 
+
+
         //单击行
         $table.on('click-row.bs.table', function (e, row, $element) {
             $('.selected').removeClass('selected');
@@ -728,7 +817,7 @@
 
             AppSerTable()
             function AppSerTable() {
-                var rowsInfo = JSON.parse(sessionStorage.rowsInfo);
+                rowsInfo = JSON.parse(sessionStorage.rowsInfo);
                 $.ajax({
                     url: '/appversionlist/queryAppName',
                     type: 'POST',
@@ -787,8 +876,22 @@
                 async: true,
                 type: "POST",
                 data: {'AppId': rowsInfo.AppId, 'AppName': rowsInfo.AppName},
-                success: function () {
+                success: function (reg) {
                     $table.bootstrapTable('removeByUniqueId', rowsInfo.AppId);
+                    // sessionStorage.AppverInfo = JSON.stringify(reg.list2);
+                    if(reg.appNameList!=null){
+                        $("#tableL04 tr[data-uniqueid="+reg.appNameList.AppId+"]").addClass("selected");
+                        sessionStorage.rowsInfo = JSON.stringify(reg.appNameList);
+                        rowsInfo = JSON.parse(sessionStorage.rowsInfo);
+                    }
+                    $('#tableL05').bootstrapTable('load', reg.list2);
+                    var verStr = "<option value=''>--请选择--</option>";
+                    $.each(reg.AppnameOne, function (n, v) {
+                        verStr += '<option value="' + v.AppId + '">' + v.AppName + '</option>';
+                    });
+                    $('#AppId').html(verStr);
+                    $('#AppIds').html(verStr);
+
                 }
             });
 
@@ -825,8 +928,15 @@
                 success: function (reg) {
                     if (reg.code == 200) {
                         //数据深拷贝
-                        verData = reg.data.concat();
-                        AppVerTable(reg.data);
+                        verData = reg.list.concat();
+                        if(reg.appname!=undefined){
+                            $("#tableL04 tr[data-uniqueid="+reg.appname.AppId+"]").addClass("selected");
+                            sessionStorage.rowsInfo = JSON.stringify(reg.appname);
+                            rowsInfo = JSON.parse(sessionStorage.rowsInfo);
+                        }
+                        if(reg.list!=undefined) {
+                            AppVerTable(reg.list);
+                        }
                     }
                 },
                 error: function () {
@@ -843,8 +953,12 @@
             $.each(data, function (n, v) {
                 verStr += '<option value="' + v.AppId + '">' + v.AppName + '</option>';
             });
+            // $('#editAAppVerform input[name="AppId"]').html(verStr);
+            // $('#AppVerform input[name="AppId"]').html(verStr);
             $('#AppId').html(verStr);
+            $('#AppIds').html(verStr);
         })();
+
 
         function AppVerTable(data) {
             $('#tableL05').bootstrapTable('destroy');
@@ -868,12 +982,12 @@
                             return index + 1;
                         }
                     },
-                    {field: 'AppName', title: 'APP名称', width: '10%'},
+                    {field: 'AppName', title: 'APP名称'},
                     {field: 'AppVer', title: 'APP版本', width: '20%'},
                     {field: 'AppDate', title: 'APP上线日期'},
                     {
                         field: 'RegularFile', title: 'APP下载', formatter: function (value, row, index) {
-                            return '<a href="https://localhost:8090/appversionlist/download?downLoadName='+value+'" >点击下载</a>';
+                            return '<a href="'+value+'" >点击下载</a>';
                         }
                     },
                     {
@@ -891,7 +1005,7 @@
                             }
                         }
                     },
-                    {field: 'remark', title: '备注', width: '100px;'}
+                    {field: 'remark', title: '备注'}
                 ],
                 data: data,
                 onLoadSuccess: function () {
@@ -909,11 +1023,12 @@
             $('.selected').removeClass('selected');
             sessionStorage.AppverInfo = JSON.stringify(row);
             $($element).addClass('selected');
+            dateIndex = $($element).attr('data-index');
         });
 
         //添加APP版本信息
         $('#toolbar2').on('click', '#addBtn2', function () {
-            $("#addAPPModalLabel").text('添加APP版本信息');
+            // $("#addAPPModalLabel").text('添加APP版本信息');
             $('#AppVerModal').modal('show');
             //清空表单
             $(".tips").addClass('hidden');
@@ -923,20 +1038,27 @@
 
         //编辑APP版本信息
         $('#toolbar2').on('click', '#editBtn2', function () {
+            $("#editAAppPerform input:radio[value=0]").prop("checked",false);
+            $("#editAAppPerform input:radio[value=1]").prop("checked",false);
             if (isSelected('#tableL05')) {
-                $("#addAPPModalLabel").text('编辑APP版本信息');
-                $('#AppVerModal').modal('show');
+                $('#editAAppVerModal').modal('show');
+                //清空表单
                 $(".tips").addClass('hidden');
                 //表单加载数据
                 var AppverInfo = JSON.parse(sessionStorage.AppverInfo);
-
                 $.each(AppverInfo, function (key, v) {
                     //debugger;
                     if (key != 'AppFlag') {
-                        $('#AppVerform  *[name=' + key + ']').val(v);
+                        if(key == 'AppId'){
+                           $('#editAAppPerform  *[name=' + "AppIds" + ']').val(v);
+                        }
+                        if(key == 'remark'){
+                            $('#editAAppPerform  *[name=' + "remarks" + ']').val(v);
+                        }
+                        $('#editAAppPerform  *[name=' + key + ']').val(v);
                     } else {
                         if (key == 'AppFlag') {
-                            $("#AppVerform input:radio[value='" + v + "']").attr('checked', 'true');
+                            $("#editAAppPerform input:radio[value='" + v + "']").prop('checked', true);
                         }
                     }
                 });
@@ -959,9 +1081,10 @@
                 async: true,
                 type: "POST",
                 data: {'Id': AppverInfo.Id, 'AppId': AppverInfo.AppId},
-                success: function () {
+                success: function (reg) {
                     $table2.bootstrapTable('removeByUniqueId', AppverInfo.AppId);
-                    alert('删除成功！');
+                    $('#tableL05').bootstrapTable('load', reg.data);
+                    $("#tableL04 tr[data-uniqueid="+AppverInfo.AppId+"]").addClass("selected");
                 }
             });
 
@@ -1005,41 +1128,42 @@
 
         //接口管理
         (function () {
-            var $table3;
-            var AppverInfo = JSON.parse(sessionStorage.AppverInfo);
+            // var $table3;
+            // var AppverInfo = JSON.parse(sessionStorage.AppverInfo);
+            //
+            // $('#toolbar2').on('click', '#serviceBtn2', function () {
+            //     var AppVerId = isSelected('#tableL05');
+            //     if (AppVerId) {
+            //         $('#ServerModal').modal('show');
+            //         SerAppTable(AppverInfo.Id, AppverInfo.AppId);
+            //     }
+            // });
 
-            $('#toolbar2').on('click', '#serviceBtn2', function () {
-                var AppVerId = isSelected('#tableL05');
-                if (AppVerId) {
-                    $('#ServerModal').modal('show');
-                    SerAppTable(AppverInfo.Id, AppverInfo.AppId);
-                }
-            });
 
-
-            //获取接口
-            $.ajax({
-                url: '/appversionlist/queryAllServerlist',
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                success: function (reg) {
-                    if (reg.code == 200) {
-                        var serStr = "<option>--请选择--</option>";
-                        $.each(reg.data, function (key, val) {
-                            //debugger;
-                            serStr += '<option value=' + val.ServiceId + '>' + val.ServiceName + '</option>'
-                        });
-                        $('#ServiceId').html(serStr);
-
-                    } else {
-                        alert(reg.msg);
-                    }
-                },
-                error: function () {
-                    alert('请求出错了！1231');
-                }
-            });
+            // //获取接口
+            // $.ajax({
+            //     url: '/appversionlist/queryAllServerlist',
+            //     type: 'GET',
+            //     dataType: 'json',
+            //     async: false,
+            //     success: function (reg) {
+            //         if (reg.code == 200) {
+            //             var serStr = "<option>--请选择--</option>";
+            //             $.each(reg.data, function (key, val) {
+            //                 //debugger;
+            //                 serStr += '<option value=' + val.ServiceId + '>' + val.ServiceName + '</option>'
+            //             });
+            //
+            //             $('#ServiceId').html(serStr);
+            //
+            //         } else {
+            //             alert(reg.msg);
+            //         }
+            //     },
+            //     error: function () {
+            //         alert('请求出错了！1231');
+            //     }
+            // });
 
             //获取接口版本
             $('#ServiceId').change(function () {
@@ -1224,9 +1348,22 @@
 
     });
 
+    $("#Appform").validate({
+        rules: {
+            AppName:{
+                required: true, // 设为必填项
+            },
+        },
+    });
+
 
     //提交
     function save_submit() {
+        let flag = $("#Appform").valid();
+        if (!flag) {
+            //没有通过验证，就不进行下面的ajax提交了
+            return;
+        }
         var data = new Object();
         data['AppName'] = $("#Appform input[name='AppName']").val();
         $.ajax({
@@ -1241,8 +1378,19 @@
                     $('.AppTips').html(successStr);
                     setTimeout(function () {
                         $('#AppModal').modal('hide');
-                    }, 1000);
-                    $('#tableL04').bootstrapTable('load', reg.data);
+                    });
+                    $('#tableL04').bootstrapTable('load', reg.listOne);
+                    $("#tableL04 tr[data-uniqueid="+reg.AppOne.AppId+"]").addClass("selected");
+                    sessionStorage.rowsInfo = JSON.stringify(reg.AppOne);
+                    rowsInfo = JSON.parse(sessionStorage.rowsInfo);
+                    $('#tableL05').bootstrapTable('load', reg.appversionlists);
+
+                    var verStr = "<option value=''>--请选择--</option>";
+                    $.each(reg.listOne, function (n, v) {
+                        verStr += '<option value="' + v.AppId + '">' + v.AppName + '</option>';
+                    });
+                    $('#AppId').html(verStr);
+                    $('#AppIds').html(verStr);
                 } else {
                     var errorStr = tipsInfo(0, reg.msg);
                     $('.AppTips').html(errorStr);
@@ -1255,8 +1403,21 @@
         });
     }
 
+    $("#editAppform").validate({
+        rules: {
+            AppName:{
+                required: true, // 设为必填项
+            },
+        },
+    });
+
     //提交
     function edit_submit() {
+        let flag = $("#editAppform").valid();
+        if (!flag) {
+            //没有通过验证，就不进行下面的ajax提交了
+            return;
+        }
         var data = new Object();
         data['AppId'] = $("#editAppform input[name='AppId']").val();
         data['AppName'] = $("#editAppform input[name='AppName']").val();
@@ -1275,6 +1436,18 @@
                     });
                     $('#tableL04').bootstrapTable('load', reg.listapp);
                     $('#tableL05').bootstrapTable('load', reg.appversionlists);
+                    sessionStorage.rowsInfo = JSON.stringify(reg.appnameAppId);
+                    var app = $("#editAppform input[name='AppId']").val();
+                    $("#tableL04 tr[data-uniqueid="+app+"]").addClass("selected");
+
+                    var verStr = "<option value=''>--请选择--</option>";
+                    $.each(reg.listapp, function (n, v) {
+                        verStr += '<option value="' + v.AppId + '">' + v.AppName + '</option>';
+                    });
+                    $('#AppId').html(verStr);
+                    $('#AppIds').html(verStr);
+
+
                 } else {
                     var errorStr = tipsInfo(0, reg.msg);
                     $('.AppTips').html(errorStr);
@@ -1314,21 +1487,21 @@
         AppName:{
             required: true, // 设为必填项
         },
-        RegularFile:{
-            required: true, // 设为必填项
-        },
-        JsonFile:{
-            required: true, // 设为必填项
-        },
+        // RegularFile:{
+        //     required: true, // 设为必填项
+        // },
+        // JsonFile:{
+        //     required: true, // 设为必填项
+        // },
         AppDate:{
             required: true, // 设为必填项
             // dateISO:true
         },
     },
-    messages: {
-        RegularFile: "没有上传文件",
-        JsonFile:"没有上传文件"
-    },
+    // messages: {
+    //     RegularFile: "没有上传文件",
+    //     JsonFile:"没有上传文件"
+    // },
 
     submitHandler: function (form) {
         $(form).ajaxSubmit();
@@ -1342,9 +1515,21 @@
             //没有通过验证，就不进行下面的ajax提交了
             return;
         }
+        if(regularFile==null || regularFile=="") {
+            $("#birthRegularFile").css("color", "red");
+            // $("#birthRegularFile").css("position", "absolute");
+            // $("#birthRegularFile").css(" margin-left", "-15px");
+            $("#birthRegularFile").text("没有上传文件");
+            return false;
+        }
+        if(jsonFile==null || jsonFile=="") {
+            $("#birthJsonFile").css("color", "red");
+            $("#birthJsonFile").text("没有上传文件");
+            return false;
+        }
         var data = new Object();
         data['AppId'] = $('#AppVerform select[name="AppId"]').val();
-        data['Id'] = $('#AppVerform input[name="Id"]').val();
+        // data['Id'] = $('#AppVerform input[name="Id"]').val();
         data['AppName'] = $("#AppId option:selected").text();
         data['AppVer'] = $('#AppVerform input[name="AppVer"]').val();
         data['AppDate'] = $('#AppVerform input[name="AppDate"]').val();
@@ -1367,6 +1552,8 @@
                         $('#AppVerModal').modal('hide');
                     });
                     $('#tableL05').bootstrapTable('load', reg.data);
+                    $('.selected').removeClass('selected');
+                    $("#tableL04 tr[data-uniqueid="+reg.data[0].AppId+"]").addClass("selected");
                 } else {
                     var errorStr = tipsInfo(0, reg.msg);
                     console.log(errorStr);
@@ -1379,6 +1566,69 @@
             }
         });
 
+    }
+
+    $("#editAAppPerform").validate({
+        rules: {
+            AppVer: {
+                required: true, // 设为必填项
+            },
+            remark: {
+                required: true,
+            },
+            AppId:{
+                required: true, // 设为必填项
+            },
+            AppName:{
+                required: true, // 设为必填项
+            }
+        },
+    });
+
+    //提交版本信息
+    function editAppSev() {
+        let flag = $("#editAAppPerform").valid();
+        if (!flag) {
+            //没有通过验证，就不进行下面的ajax提交了
+            return;
+        }
+        var data = new Object();
+        data['AppId'] = $('#editAAppPerform select[name="AppIds"]').val();
+        data['Id'] = $('#editAAppPerform input[name="Id"]').val();
+        data['AppName'] = $("#AppIds option:selected").text();
+        data['AppVer'] = $('#editAAppPerform input[name="AppVer"]').val();
+        data['AppDate'] = $('#editAAppPerform input[name="AppDate"]').val();
+        data['AppFlag'] = $('#editAAppPerform input[name="AppFlag"]:checked').val();
+        data['remark'] =  $('#remarks').val();
+        $.ajax({
+            url: '/appversionlist/updateAppversionlist',
+            dataType: "json",
+            async: true,
+            data: data,
+            type: "POST",
+            success: function (reg) {
+                if (reg.code == 200) {
+                    var successStr = tipsInfo(1, reg.msg);
+                    $('.AppVerTipsA').html(successStr);
+                    setTimeout(function () {
+                        $('#editAAppVerModal').modal('hide');
+                    });
+                    $('#tableL05').bootstrapTable('load', reg.listapp);
+
+                    sessionStorage.AppverInfo = JSON.stringify(reg.aversion);
+
+                    $("#tableL05 tr[data-index="+dateIndex+"]").addClass("selected");
+                } else {
+                    var errorStr = tipsInfo(0, reg.msg);
+                    console.log(errorStr);
+                    $('.AppVerTipsA').html(errorStr);
+                }
+            },
+            error: function () {
+                var errorStr = tipsInfo(0, '提交失败！');
+                $('.AppVerTipsA').html(errorStr);
+            }
+        });
     }
 </script>
 </body>
