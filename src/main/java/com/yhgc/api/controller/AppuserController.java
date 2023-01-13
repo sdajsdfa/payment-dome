@@ -3,6 +3,7 @@ package com.yhgc.api.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Appuser;
+import com.yhgc.api.enums.AppStatusEnum;
 import com.yhgc.api.service.AppuserService;
 import com.yhgc.api.util.R;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +50,7 @@ public class AppuserController {
     public R login(Appuser appuser, HttpServletResponse response, HttpServletRequest request) {
         QueryWrapper<Appuser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userName", appuser.getUserName());
-        queryWrapper.eq("status", 0);
+        queryWrapper.eq("status", AppStatusEnum.NORMAL.getCode());
         Appuser user = appuserService.getOne(queryWrapper);
         if(user.getUserName().equals(appuser.getUserName())){
             if(user.getPassWord().equals(appuser.getPassWord())){
@@ -101,7 +102,7 @@ public class AppuserController {
         deleteNewCookie.setMaxAge(0); // 删除该Cookie
         deleteNewCookie.setPath("/");
         response.addCookie(deleteNewCookie);
-        return "/WEB-INF/view/login.jsp";
+        return "login";
     }
 }
 

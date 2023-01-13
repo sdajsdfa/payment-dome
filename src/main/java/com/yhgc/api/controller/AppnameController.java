@@ -4,6 +4,7 @@ package com.yhgc.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Appname;
 import com.yhgc.api.entity.Appversionlist;
+import com.yhgc.api.enums.AppStatusEnum;
 import com.yhgc.api.service.AppnameService;
 import com.yhgc.api.service.AppversionlistService;
 import com.yhgc.api.util.R;
@@ -41,7 +42,7 @@ public class AppnameController {
     @GetMapping(value = "/queryAllAppname")
     public R queryAllAppname() {
         QueryWrapper<Appname> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus", AppStatusEnum.NORMAL.getCode());
         List<Appname> list = appnameService.list(queryWrapper);
         return R.ok(list);
     }
@@ -60,13 +61,13 @@ public class AppnameController {
         Appname name= appnameService.getOne(queryWrapper);
         if(name!=null){
             if(name.getAppStatus()==1){
-                name.setAppStatus(0);
+                name.setAppStatus(AppStatusEnum.NORMAL.getCode());
                 appnameService.updateById(name);
             }else {
                 return R.error("名称不能重复");
             }
         }else {
-            appname.setAppStatus(0);
+            appname.setAppStatus(AppStatusEnum.NORMAL.getCode());
             Boolean app = appnameService.save(appname);
             if (!app) {
                 R.error("添加APP名称失败");
@@ -75,16 +76,16 @@ public class AppnameController {
 
         QueryWrapper<Appname> Wrapper = new QueryWrapper<>();
         Wrapper.eq("AppName",appname.getAppName());
-        Wrapper.eq("AppStatus",0);
+        Wrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         Appname AppOne = appnameService.getOne(Wrapper);
 
         QueryWrapper<Appversionlist> WrapperOne = new QueryWrapper<>();
         WrapperOne.eq("AppId",AppOne.getAppId());
-        WrapperOne.eq("AppStatus",0);
+        WrapperOne.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appversionlist> appversionlists = appversionlistService.list(WrapperOne);
 
         QueryWrapper<Appname> query = new QueryWrapper<>();
-        query.eq("AppStatus",0);
+        query.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appname> listOne = appnameService.list(query);
         map.put("listOne",listOne);
         map.put("AppOne",AppOne);
@@ -101,7 +102,7 @@ public class AppnameController {
     public R updateAppname(Appname appname) {
         Map<String, Object> map = new HashMap<String, Object>();
         QueryWrapper<Appname> queryWrapperOne = new QueryWrapper<>();
-        queryWrapperOne.eq("AppStatus",0);
+        queryWrapperOne.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         queryWrapperOne.eq("AppName",appname.getAppName());
         Appname name= appnameService.getOne(queryWrapperOne);
         if(name!=null){
@@ -113,13 +114,13 @@ public class AppnameController {
         }
         Appname appnameAppId = appnameService.getById(appname.getAppId());
         QueryWrapper<Appname> query = new QueryWrapper<>();
-        query.eq("AppStatus",0);
+        query.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appname> list = appnameService.list(query);
         Appversionlist appversionlist = new Appversionlist();
         appversionlist.setAppName(appname.getAppName());
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("AppId",appname.getAppId());
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         appversionlistService.update(appversionlist,queryWrapper);
 
         List<Appversionlist> appversionlists =appversionlistService.list(queryWrapper);
@@ -143,16 +144,16 @@ public class AppnameController {
             R.error("删除APP版本列表失败");
         }
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         queryWrapper.eq("AppId",appname.getAppId());
         List<Appversionlist> list = appversionlistService.list(queryWrapper);
         for (Appversionlist appversionlist:list) {
-            appversionlist.setAppStatus(1);
+            appversionlist.setAppStatus(AppStatusEnum.DELETE.getCode());
             appversionlistService.updateById(appversionlist);
         }
         QueryWrapper<Appname> query = new QueryWrapper<>();
         query.orderByDesc("AppId");
-        query.eq("AppStatus",0);
+        query.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         query.last("limit 1");
         Appname  appName = appnameService.getOne(query);
 
@@ -160,16 +161,16 @@ public class AppnameController {
         if(appName!=null) {
             QueryWrapper<Appversionlist> Wrapper = new QueryWrapper<>();
             Wrapper.eq("AppId", appName.getAppId());
-            Wrapper.eq("AppStatus", 0);
+            Wrapper.eq("AppStatus", AppStatusEnum.NORMAL.getCode());
             list2 = appversionlistService.list(Wrapper.orderByDesc("id"));
         }else {
             QueryWrapper<Appversionlist> Wrapper = new QueryWrapper<>();
-            Wrapper.eq("AppStatus", 0);
+            Wrapper.eq("AppStatus", AppStatusEnum.NORMAL.getCode());
             list2 = appversionlistService.list(Wrapper.orderByDesc("id"));
         }
 
         QueryWrapper<Appname> queryOne = new QueryWrapper<>();
-        queryOne.eq("AppStatus",0);
+        queryOne.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appname> AppnameOne = appnameService.list(queryOne);
 
         map.put("appNameList",appName);

@@ -5,6 +5,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.yhgc.api.entity.Appname;
 import com.yhgc.api.entity.Appversionlist;
+import com.yhgc.api.enums.AppStatusEnum;
 import com.yhgc.api.service.AppnameService;
 import com.yhgc.api.service.AppversionlistService;
 import com.yhgc.api.util.R;
@@ -53,19 +54,19 @@ public class AppversionlistController {
     public R queryAllAppversionlist() {
         Map<String, Object> map = new HashMap<String, Object>();
         QueryWrapper<Appname> query = new QueryWrapper<>();
-        query.eq("AppStatus",0);
+        query.eq("AppStatus", AppStatusEnum.NORMAL.getCode());
         query.last("limit 1");
         Appname  appname = appnameService.getOne(query);
 
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
         if(appname==null){
-            queryWrapper.eq("AppStatus",0);
+            queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
             List<Appversionlist>  list = appversionlistService.list(queryWrapper.orderByDesc("id"));
             map.put("list",list);
             return R.ok(map);
         }
         queryWrapper.eq("AppId",appname.getAppId());
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appversionlist>  list = appversionlistService.list(queryWrapper.orderByDesc("id"));
         map.put("appname",appname);
         map.put("list",list);
@@ -81,7 +82,7 @@ public class AppversionlistController {
     public R queryAppName(Appversionlist appversionlist) {
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("AppId", appversionlist.getAppId());
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appversionlist>  list = appversionlistService.list(queryWrapper.orderByDesc("id"));
         return R.ok(list);
     }
@@ -246,7 +247,7 @@ public class AppversionlistController {
             R.error("添加APP版本列表失败");
         }
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("AppStatus", 0);
+        queryWrapper.eq("AppStatus", AppStatusEnum.NORMAL.getCode());
         queryWrapper.eq("AppId", appversionlist.getAppId());
         List<Appversionlist> list= appversionlistService.list(queryWrapper.orderByDesc("id"));
         return R.ok(list);
@@ -268,7 +269,7 @@ public class AppversionlistController {
         Appversionlist aversion = appversionlistService.getById(appversionlist.getId());
         QueryWrapper<Appversionlist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("AppId", appversionlist.getAppId());
-        queryWrapper.eq("AppStatus",0);
+        queryWrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appversionlist> list= appversionlistService.list(queryWrapper.orderByDesc("id"));
         map.put("aversion",aversion);
         map.put("listapp",list);
@@ -282,14 +283,14 @@ public class AppversionlistController {
     @ApiOperation("删除APP版本列表")
     @PostMapping (value = "/deleteAppversionlist")
     public R deleteAppversionlist(Appversionlist appversionlist) {
-        appversionlist.setAppStatus(1);
+        appversionlist.setAppStatus(AppStatusEnum.DELETE.getCode());
         Boolean app = appversionlistService.updateById(appversionlist);
         if(!app){
             R.error("删除APP版本列表失败");
         }
         QueryWrapper<Appversionlist> Wrapper = new QueryWrapper<>();
         Wrapper.eq("AppId",appversionlist.getAppId());
-        Wrapper.eq("AppStatus",0);
+        Wrapper.eq("AppStatus",AppStatusEnum.NORMAL.getCode());
         List<Appversionlist> list2 = appversionlistService.list(Wrapper.orderByDesc("id"));
         return R.ok(list2);
     }
