@@ -117,7 +117,6 @@
             data: {"userName": username, "passWord": pwd},
             type: "POST",
             withCredentials: true,
-            // crossDomain: true,
             success: function (reg) {
                 if (reg.code == 200) {
                     var successStr = tipsInfo(1, reg.msg);

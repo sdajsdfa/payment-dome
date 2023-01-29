@@ -31,7 +31,7 @@
 body {
     margin: 0;
     font-family: "SimSun","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 13px;
+    /*font-size: 15px;*/
     line-height: 18px;
     color: #333;
     background-color: #fff;
@@ -298,7 +298,7 @@ audio:not([controls]) {
 }
 
 html {
-    font-size: 10px;
+    /*font-size: 10px;*/
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
