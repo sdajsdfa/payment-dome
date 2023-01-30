@@ -419,7 +419,7 @@
                     <div class="form-group">
                         <label for="AppDate" class="col-sm-2 control-label"><span class="c-red">*</span>App上线日期:</label>
                         <div class="col-sm-10">
-                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" class="form-control Wdate"
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="form-control Wdate"
                                    name="AppDate">
 
                         </div>
@@ -510,7 +510,7 @@
                     <div class="form-group">
                         <label for="AppDate" class="col-sm-2 control-label"><span class="c-red">*</span>App上线日期:</label>
                         <div class="col-sm-10">
-                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" type="text" class="form-control Wdate"
+                            <input onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" class="form-control Wdate"
                                    name="AppDate">
 
                         </div>

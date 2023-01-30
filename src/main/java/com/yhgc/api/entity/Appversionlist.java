@@ -53,7 +53,7 @@ public class Appversionlist implements Serializable {
     @ApiModelProperty(value = "APP上线日期")
     @TableField("appDate")
     @JsonProperty("AppDate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date AppDate;
 
     @ApiModelProperty(value = "APP普通文件")
