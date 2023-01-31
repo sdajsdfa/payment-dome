@@ -13,7 +13,6 @@
         App信息管理
     </title>
     <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!--<script type="text/javascript" src="assets/js/jQuery/jquery-2.1.4.min.js"></script>-->
     <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/assets/bootstrap-table/js/bootstrap-table.js"></script>
     <script type="text/javascript" src="/assets/bootstrap-table/js/bootstrap-table-zh-CN.js"></script>
@@ -765,7 +764,7 @@
                 }
             },
             error: function () {
-                alert('请求出错了！34');
+                alert('请求出错了！');
             }
         });
         var tableHeight = $(document).height() - 52;
@@ -830,7 +829,7 @@
                         }
                     },
                     error: function () {
-                        alert('请求出错了！78');
+                        alert('请求出错了！');
                     }
                 });
             }
@@ -940,7 +939,7 @@
                     }
                 },
                 error: function () {
-                    alert('请求出错了！56');
+                    alert('请求出错了！');
                 }
             });
         })();
@@ -1188,7 +1187,7 @@
                         }
                     },
                     error: function () {
-                        alert('请求出错了！1231312');
+                        alert('请求出错了！');
                     }
                 });
 
@@ -1249,7 +1248,7 @@
                         }
                     },
                     error: function () {
-                        alert('请求出错了！78');
+                        alert('请求出错了！');
                     }
                 });
                 $('#tableL06').bootstrapTable('destroy');

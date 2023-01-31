@@ -62,12 +62,11 @@ public class AppuserController {
                 sessionUsermap.put(session.getId(), user);
                 return R.ok(user);
             }else {
-                R.error("密码错误");
+                return R.error("密码错误");
             }
         }else {
-            R.error("用户名错误");
+            return R.error("用户名错误");
         }
-        return R.ok(user);
     }
 
     @RequestMapping(value="/main")
