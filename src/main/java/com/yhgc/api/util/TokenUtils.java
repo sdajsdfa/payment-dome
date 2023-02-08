@@ -2,7 +2,7 @@ package com.yhgc.api.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.yhgc.api.entity.Userinfo;
+import com.yhgc.api.entity.UserInfo;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class TokenUtils {
      * @param userinfo
      * @return
      */
-    public static String getToken(Userinfo userinfo) {
+    public static String getToken(UserInfo userinfo) {
         Date start = new Date();
         long currentTime = System.currentTimeMillis() + 60* 60 * 1000;//一小时有效时间
         Date end = new Date(currentTime);

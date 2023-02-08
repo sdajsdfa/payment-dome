@@ -1,7 +1,7 @@
 package com.yhgc.api.Interceptor;
 
-import com.yhgc.api.controller.AppuserController;
-import com.yhgc.api.entity.Appuser;
+import com.yhgc.api.controller.AppUserController;
+import com.yhgc.api.entity.AppUser;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Resource;
@@ -31,7 +31,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                     }
                 }
             }
-            Appuser loginUser = AppuserController.sessionUsermap.get(sessionIdStr);
+            AppUser loginUser = AppUserController.sessionUsermap.get(sessionIdStr);
             if (loginUser != null) {
                 return true;
             }

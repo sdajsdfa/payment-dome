@@ -2,10 +2,10 @@ package com.yhgc.api.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yhgc.api.entity.Department;
-import com.yhgc.api.entity.Unitinfo;
+import com.yhgc.api.entity.UnitInfo;
 import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.DepartmentService;
-import com.yhgc.api.service.UnitinfoService;
+import com.yhgc.api.service.UnitInfoService;
 import com.yhgc.api.util.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @Resource
-    private UnitinfoService unitinfoService;
+    private UnitInfoService unitinfoService;
 
     /**
      *查询部门
@@ -55,9 +55,9 @@ public class DepartmentController {
      */
     @ApiOperation("修改单位信息")
     @PostMapping(value = "/updateUnitInfo")
-    public R updateUnitInfo(@RequestBody Unitinfo unitInfo) {
+    public R updateUnitInfo(@RequestBody UnitInfo unitInfo) {
         unitInfo.setCreateTime(new Date());
-        QueryWrapper<Unitinfo> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<UnitInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", unitInfo.getId());
         Boolean si = unitinfoService.update(unitInfo,queryWrapper);
         if (!si) {

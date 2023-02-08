@@ -4,10 +4,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.yhgc.api.entity.Userinfo;
+import com.yhgc.api.entity.UserInfo;
 import com.yhgc.api.service.PassToken;
 import com.yhgc.api.service.UserinfoLoginToken;
-import com.yhgc.api.service.UserinfoService;
+import com.yhgc.api.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 public class LoginInterceptor implements HandlerInterceptor {
 
       @Autowired
-      private UserinfoService userinfoService;
+      private UserInfoService userinfoService;
 
       @Override
       public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
@@ -51,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                                 } catch (JWTDecodeException j) {
                                         throw new RuntimeException("401");
                                 }
-                                Userinfo userinfo = userinfoService.getById(id);
+                                UserInfo userinfo = userinfoService.getById(id);
                                 if (userinfo == null) {
                                         throw new RuntimeException("用户不存在，请重新登录");
                                 }

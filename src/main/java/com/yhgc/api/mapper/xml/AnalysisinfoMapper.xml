@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yhgc.api.mapper.AnalysisinfoMapper">
-
-    <select id="countAnalysis" resultType="java.util.Map">
-        select projectId,projectName,declareTime,count(analysisResults) as analysisResults from analysisinfo where unitId=#{unitId,jdbcType=BIGINT} and dataStatus=0 and DATE_SUB(CURDATE(), INTERVAL 3 MONTH) <![CDATA[ <= ]]> date(analyFileTime) group by projectId,analysisResults;
-    </select>
-</mapper>

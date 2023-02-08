@@ -830,6 +830,7 @@
                     },
                     error: function () {
                         alert('请求出错了！');
+                        top.location.href = "appLogin"
                     }
                 });
             }
