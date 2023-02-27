@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = "产品和新闻")
 @RestController
-@RequestMapping("/newsinfo")
+@RequestMapping("/newsInfo")
 public class NewsInfoController {
 
 

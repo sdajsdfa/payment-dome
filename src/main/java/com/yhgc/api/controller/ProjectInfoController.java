@@ -22,7 +22,7 @@ import java.util.*;
  */
 @Api(tags = "工程信息")
 @RestController
-@RequestMapping("/projectinfo")
+@RequestMapping("/projectInfo")
 public class ProjectInfoController {
 
     @Resource

@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Api(tags = "单位信息")
 @RestController
-@RequestMapping("/unitinfo")
+@RequestMapping("/unitInfo")
 public class UnitInfoController {
 
     @Resource

@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Api(tags = "数据")
 @RestController
-@RequestMapping("/datainfo")
+@RequestMapping("/dataInfo")
 public class DataInfoController {
 
     @Resource

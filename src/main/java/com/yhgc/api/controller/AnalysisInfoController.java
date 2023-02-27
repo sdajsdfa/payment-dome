@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Api(tags = "分析结果")
 @RestController
-@RequestMapping("/analysisinfo")
+@RequestMapping("/analysisInfo")
 public class AnalysisInfoController {
 
     @Resource
@@ -37,8 +37,8 @@ public class AnalysisInfoController {
      * @return
      */
     @ApiOperation("添加数据分析结果")
-    @PostMapping(value = "/addDpt")
-    public R addDpt(@RequestBody AnalysisInfo analysisinfo) {
+    @PostMapping(value = "/addAnalysis")
+    public R addAnalysis(@RequestBody AnalysisInfo analysisinfo) {
         analysisinfo.setAnalyFileTime(new Date());
         analysisinfo.setDeclareTime(new Date());
         analysisinfo.setDataStatus(0);

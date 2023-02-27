@@ -32,6 +32,6 @@ public class WebConfig implements WebMvcConfigurer {
                          "/serverlist/queryAllServerlist",
                          "/serverlist/downloadFromJc"
                 );
-
+        registry.addInterceptor(new LoginInterceptor());
     }
 }

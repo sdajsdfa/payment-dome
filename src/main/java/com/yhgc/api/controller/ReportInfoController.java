@@ -20,7 +20,7 @@ import java.util.*;
  */
 @Api(tags = "报告模板")
 @RestController
-@RequestMapping("/reportinfo")
+@RequestMapping("/reportInfo")
 public class ReportInfoController {
 
     @Resource

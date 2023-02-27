@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Api(tags = "用户信息")
 @RestController
-@RequestMapping("/userinfo")
+@RequestMapping("/userInfo")
 public class UserInfoController {
 
     @Resource

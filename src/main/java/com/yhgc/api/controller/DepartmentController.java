@@ -38,7 +38,7 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation("查询部门")
-    @GetMapping(value = "/queryAllSectorInfo")
+    @GetMapping(value = "/queryDpts")
     public R queryDpts(Integer unitId) {
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("unitId",unitId);

@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @Api(tags = "行业分类")
 @RestController
-@RequestMapping("/sectorinfo")
+@RequestMapping("/sectorInfo")
 public class SectorInfoController {
 
     @Resource

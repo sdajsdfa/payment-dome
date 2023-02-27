@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-06-27
  */
 @RestController
-@RequestMapping("/methodinfo")
+@RequestMapping("/methodInfo")
 public class MethodInfoController {
 
 

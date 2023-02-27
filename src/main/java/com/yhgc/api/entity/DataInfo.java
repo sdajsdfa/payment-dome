@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 数据
+ * 桩数据
  * </p>
  *
  * @author 易生雄
@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Datainfo对象", description="数据")
+@ApiModel(value="Datainfo对象", description="桩数据")
 public class DataInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,17 +54,10 @@ public class DataInfo implements Serializable {
     @TableField("pileNo")
     private String pileNo;
 
-    @ApiModelProperty(value = "孔号")
-    @TableField("holeNo")
-    private String holeNo;
-
     @ApiModelProperty(value = "桩长")
     @TableField("pileLength")
     private Integer pileLength;
 
-    @ApiModelProperty(value = "孔深")
-    @TableField("holeDepth")
-    private Integer holeDepth;
 
     @ApiModelProperty(value = "砼强度")
     @TableField("concreteStrength")
@@ -126,5 +119,22 @@ public class DataInfo implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+
+    @ApiModelProperty(value = "厂家")
+    @TableField("manufactor")
+    private String manufactor;
+
+    @ApiModelProperty(value = "测试类型")
+    @TableField("testType")
+    private Integer testType;
+
+    @ApiModelProperty(value = "数据版本号")
+    @TableField("dataVersion")
+    private Integer dataVersion;
+
+    @ApiModelProperty(value = "是否原始数据")
+    @TableField("orginalDate")
+    private Boolean orginalDate;
 
 }
