@@ -1,0 +1,15 @@
+localhost.localdomain
+
+
+    public static ChangeFlagEnum getChangeFlag( String code ) {
+
+        for( ChangeFlagEnum changeFlagEnum : ChangeFlagEnum.values() ) {
+
+            if( StringUtils.isNotBlank( code ) && code.equals( changeFlagEnum.getCode() ) ) {
+
+                return changeFlagEnum;
+            }
+        }
+
+        return CONTRACT_PAYMENT_CONDITION;
+    }
