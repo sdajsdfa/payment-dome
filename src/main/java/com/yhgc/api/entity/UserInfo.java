@@ -5,10 +5,13 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -49,10 +52,14 @@ public class UserInfo implements Serializable {
     private String account;
 
     @ApiModelProperty(value = "密码")
-    private String password;
+    @TableField("passWord")
+    private String passWord;
 
     @ApiModelProperty(value = "姓名")
     private String name;
+
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
 
     @ApiModelProperty(value = "身份证号")
     @TableField("idCard")
@@ -73,10 +80,13 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField("createTime")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date createTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;
 
-
+    @ApiModelProperty(value = "图片")
+    private String picture;
 }

@@ -88,7 +88,7 @@ public class UnitInfoController {
     @PostMapping(value = "/addUnitAdmin")
     public R addUnitAdmin(@RequestBody UserInfo userinfo) {
         String account = userinfo.getAccount();
-        String password = userinfo.getPassword();
+        String password = userinfo.getPassWord();
         String idCard = userinfo.getIdCard();
         if (account==null || password==null || idCard==null) {
             R.error("单位管理员信息不能为空");

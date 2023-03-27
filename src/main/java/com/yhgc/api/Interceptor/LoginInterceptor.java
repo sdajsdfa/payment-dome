@@ -8,16 +8,17 @@ import com.yhgc.api.entity.UserInfo;
 import com.yhgc.api.service.PassToken;
 import com.yhgc.api.service.UserinfoLoginToken;
 import com.yhgc.api.service.UserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 public class LoginInterceptor implements HandlerInterceptor {
 
-      @Autowired
+      @Resource
       private UserInfoService userinfoService;
 
       @Override
@@ -52,11 +53,15 @@ public class LoginInterceptor implements HandlerInterceptor {
                                         throw new RuntimeException("401");
                                 }
                                 UserInfo userinfo = userinfoService.getById(id);
+//                                UserInfo session = (UserInfo) httpServletRequest.getSession(true).getAttribute(token);
+//                                if(!session.equals(userinfo)){
+//                                    throw new RuntimeException("token失效");
+//                                }
                                 if (userinfo == null) {
                                         throw new RuntimeException("用户不存在，请重新登录");
                                 }
                                 // 验证 token
-                                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(userinfo.getPassword())).build();
+                                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(userinfo.getPassWord())).build();
                                 try {
                                         jwtVerifier.verify(token);
                                 } catch (JWTVerificationException e) {

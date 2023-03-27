@@ -38,12 +38,12 @@ public class TokenUtils {
      */
     public static String getToken(UserInfo userinfo) {
         Date start = new Date();
-        long currentTime = System.currentTimeMillis() + 60* 60 * 1000;//一小时有效时间
+        long currentTime = System.currentTimeMillis() + 60* 60 * 8000;//八小时有效时间
         Date end = new Date(currentTime);
         String token = "";
 
         token = JWT.create().withAudience(String.valueOf(userinfo.getId())).withIssuedAt(start).withExpiresAt(end)
-                .sign(Algorithm.HMAC256(userinfo.getPassword()));
+                .sign(Algorithm.HMAC256(userinfo.getPassWord()));
         return token;
     }
 

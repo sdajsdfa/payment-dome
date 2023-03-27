@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yhgc.api.mapper.MethodInfoMapper">
 
+    <insert id="saveMethodInfo" useGeneratedKeys="true"  keyProperty="id" parameterType="com.yhgc.api.entity.MethodInfo">
+        insert into method_info(sectorId,testMthod,createTime,remark,methodId,status) values(#{sectorId},#{testMthod},#{createTime},#{remark},#{methodId},#{status})
+    </insert>
+    <select id="searchPage" resultType="com.yhgc.api.vo.MethodInfoVo">
+        select m.id,m.sectorId,m.testMthod,m.createTime,m.remark,m.methodId,m.status,p.projectName as projectName from method_info m left join project_info p on  m.methodId = p.id
+        <where>
+            <if test="query != null and query != ''">
+                p.projectName like concat('%',#{query},'%') or m.id like concat('%',#{query},'%')
+            </if>
+            and m.status=0
+        </where>
+    </select>
+    <select id="getByIdMethodInfo" resultType="com.yhgc.api.vo.MethodInfoVo">
+        select m.id,m.sectorId,m.testMthod,m.createTime,m.remark,m.methodId,m.status,p.projectName as projectName from method_info m left join project_info p on  m.methodId = p.id
+        <where>
+            <if test="id != null and id != ''">
+                m.id = #{id}
+            </if>
+        </where>
+    </select>
 </mapper>

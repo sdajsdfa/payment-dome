@@ -1,7 +1,11 @@
 package com.yhgc.api.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yhgc.api.entity.MethodInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yhgc.api.vo.MethodInfoVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +16,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-06-28
  */
 public interface MethodInfoMapper extends BaseMapper<MethodInfo> {
+
+    int saveMethodInfo(MethodInfo methodInfo);
+
+    IPage<MethodInfoVo> searchPage(@Param("page") Page<MethodInfoVo> page, @Param("query") String query);
+
+    MethodInfoVo getByIdMethodInfo(@Param("id") Long id);
 
 }

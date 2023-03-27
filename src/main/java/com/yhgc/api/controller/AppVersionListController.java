@@ -103,6 +103,9 @@ public class AppVersionListController {
             multipartFile=(MultipartFile) map.get(obj);
 
         }
+        if(multipartFile==null){
+            return json;
+        }
         /** 获取文件的后缀* */
         String filename = multipartFile.getOriginalFilename();
 
@@ -118,7 +121,7 @@ public class AppVersionListController {
             }
             inputStream = multipartFile.getInputStream();
 
-            File tmpFile = new File("/root/app/"+filename);
+            File tmpFile = new File("C:/test/"+filename);
 
             boolean res = tmpFile.createNewFile();
             if(!res)System.out.println("创建失败！");

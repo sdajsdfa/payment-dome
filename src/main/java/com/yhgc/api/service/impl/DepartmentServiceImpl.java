@@ -4,7 +4,11 @@ import com.yhgc.api.entity.Department;
 import com.yhgc.api.mapper.DepartmentMapper;
 import com.yhgc.api.service.DepartmentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yhgc.api.vo.DepartmentVo;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Department> implements DepartmentService {
 
+    @Resource
+    private DepartmentMapper departmentMapper;
+
+    @Override
+    public List<DepartmentVo> verificationList() {
+        return departmentMapper.verificationList();
+    }
 }

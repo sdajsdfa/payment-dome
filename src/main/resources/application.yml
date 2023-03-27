@@ -6,6 +6,10 @@ server:
     key-store-password: no2e3nr6hxc9
     key-store-type: JKS
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
   mvc:
     view:
       prefix: /WEB-INF/view/

@@ -7,12 +7,13 @@ import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.DepartmentService;
 import com.yhgc.api.service.UnitInfoService;
 import com.yhgc.api.util.R;
+import com.yhgc.api.vo.DepartmentVo;
+import com.yhgc.api.vo.ProjectInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -119,6 +120,23 @@ public class DepartmentController {
             return R.error("删除部门失败");
         }
         return R.ok();
+    }
+
+    /**
+     *  查询所有部门名称
+     *
+     * @return
+     */
+    @ApiOperation("查询所有部门名称")
+    @PostMapping("/verificationAllDpt")
+    public R verificationAllDpt() {
+        Map<String, Object> map = new HashMap<>();
+        List list =new ArrayList<>();
+        QueryWrapper<DepartmentVo> queryAccount = new QueryWrapper<>();
+        queryAccount.eq("status",0);
+        List<DepartmentVo> departmentVos =  departmentService.verificationList();
+        map.put("department",departmentVos);
+        return R.ok(map);
     }
 }
 

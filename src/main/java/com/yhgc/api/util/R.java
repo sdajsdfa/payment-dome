@@ -8,7 +8,7 @@ public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
 	public R() {
-		put("code", 200);
+		put("code", HttpStatus.SUCCESS);
 		put("msg", "操作成功");
 	}
 
@@ -34,6 +34,13 @@ public class R extends HashMap<String, Object> {
 		return r;
 	}
 
+	public static R ok(Object object,String token) {
+		R r = new R();
+		r.put("con", object);
+		r.put("token", token);
+		return r;
+	}
+
 	public static R  exist(){
 		R r = new R();
 		r.put("code",HttpStatus.EXIST);
@@ -49,15 +56,22 @@ public class R extends HashMap<String, Object> {
 
 	public static R ok(String msg) {
 		R r = new R();
-		r.put("code",HttpStatus.SUCCESS);
 		r.put("msg", msg);
 		return r;
 	}
 
 	public static R ok(Map<String, Object> map) {
 		R r = new R();
-		r.put("code",HttpStatus.SUCCESS);
-		r.putAll(map);
+		//r.put("code",HttpStatus.SUCCESS);
+//		r.putAll(map);
+		map.forEach((k,v)-> r.put(k,v));
+		return r;
+	}
+
+	public static R ok(Map<String, Object> map,String token) {
+		R r = new R();
+		map.forEach((k,v)-> r.put(k,v));
+		r.put("token",token);
 		return r;
 	}
 

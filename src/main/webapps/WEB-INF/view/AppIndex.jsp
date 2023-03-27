@@ -436,6 +436,7 @@
                         <div class="col-sm-10">
                             <input type="file" class="form-control" name="RegularFile" id="RegularFile" multiple="multiple"  >
                             <span id="birthRegularFile"></span>
+                            <span id="birthRegularFileHttp"></span>
                         </div>
                     </div>
 
@@ -738,6 +739,9 @@
             // $("#url").val(response.filePath);
             if(regularFile!=null || regularFile!="") {
                 $("#birthRegularFile").text("");
+                // alert($('#AppVerform input[name="RegularFile"]').val());
+                $("#birthRegularFileHttp").css("color", "red");
+                $("#birthRegularFileHttp").text(regularFile);
             }
         }
     });
@@ -1034,6 +1038,7 @@
             $(".tips").addClass('hidden');
             $('#AppVerform')[0].reset();
             $('#Id').val("");
+            $('#birthRegularFileHttp').text("");
         });
 
         //编辑APP版本信息

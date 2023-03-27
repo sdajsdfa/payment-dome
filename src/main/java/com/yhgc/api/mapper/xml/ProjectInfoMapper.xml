@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yhgc.api.mapper.ProjectInfoMapper">
 
+    <insert id="saveProject" useGeneratedKeys="true"  keyProperty="id"  parameterType="com.yhgc.api.entity.ProjectInfo">
+        insert into project_info(unitId,projectName,projectAddr,declareTime,sectorId,sectorName,methodId,testMethod,serialNo,testCount,accountId,accountName,reportId,reportName,status,createTime,remark,picture)
+        values(#{unitId},#{projectName},#{projectAddr},#{declareTime},#{sectorId},#{sectorName},#{methodId},#{testMethod},#{serialNo},#{testCount},#{accountId},#{accountName},#{reportId},#{reportName},#{status},#{createTime},#{remark},#{picture})
+    </insert>
+    <update id="updateProject" parameterType="com.yhgc.api.entity.ProjectInfo">
+        update project_info set unitId= #{unitId},projectName=  #{projectName},projectAddr= #{projectAddr},declareTime=  #{declareTime},sectorId= #{sectorId},sectorName=  #{sectorName},methodId= #{methodId},testMethod=  #{testMethod},serialNo= #{serialNo},testCount=  #{testCount},accountId= #{accountId},accountName=  #{accountName},reportId= #{reportId},reportName=  #{reportName},status= #{status},createTime=  #{createTime},remark= #{remark},picture=  #{picture} where id =  #{id}
+    </update>
+    <select id="verificationList" resultType="com.yhgc.api.vo.ProjectInfoVo">
+        select id,projectName from project_info where status=0
+    </select>
 </mapper>

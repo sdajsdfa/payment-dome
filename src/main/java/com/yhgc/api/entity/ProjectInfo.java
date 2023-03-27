@@ -5,10 +5,19 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
+
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -19,6 +28,7 @@ import lombok.EqualsAndHashCode;
  * @since 2022-06-28
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="Projectinfo对象", description="工程信息")
 public class ProjectInfo implements Serializable {
@@ -43,6 +53,9 @@ public class ProjectInfo implements Serializable {
 
     @ApiModelProperty(value = "申报时间")
     @TableField("declareTime")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "GMT+8")
     private Date declareTime;
 
     @ApiModelProperty(value = "行业id")
@@ -90,10 +103,25 @@ public class ProjectInfo implements Serializable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField("createTime")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "图片")
+    private String picture;
+
+//    @ApiModelProperty(value = "图片")
+//    private MultipartFile[] files;
+
+//    @ApiModelProperty(value = "备注")
+//    private Integer pageSize;
+//
+//    @ApiModelProperty(value = "备注")
+//    private Integer pageNum;
 
 
 }

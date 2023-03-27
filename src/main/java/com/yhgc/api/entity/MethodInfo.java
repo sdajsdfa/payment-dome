@@ -25,13 +25,17 @@ public class MethodInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "检测方法d")
+    @ApiModelProperty(value = "检测方法id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "行业id")
     @TableField("sectorId")
     private Long sectorId;
+
+    @ApiModelProperty(value = "方法id")
+    @TableField("methodId")
+    private Integer methodId;
 
     @ApiModelProperty(value = "检测方法")
     @TableField("testMthod")
@@ -43,6 +47,9 @@ public class MethodInfo implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "状态")
+    private Integer status;
 
 
 }

@@ -2,6 +2,9 @@ package com.yhgc.api.mapper;
 
 import com.yhgc.api.entity.ProjectInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yhgc.api.vo.ProjectInfoVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ProjectInfoMapper extends BaseMapper<ProjectInfo> {
 
+    Boolean saveProject(ProjectInfo projectInfo);
+
+    Boolean updateProject(ProjectInfo projectInfo);
+
+    List<ProjectInfoVo> verificationList();
 }

@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(UserLoginInterceptor())
+        registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/**") // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
                 .excludePathPatterns(
                         "/appLogin",
@@ -32,6 +32,6 @@ public class WebConfig implements WebMvcConfigurer {
                          "/serverlist/queryAllServerlist",
                          "/serverlist/downloadFromJc"
                 );
-        registry.addInterceptor(new LoginInterceptor());
+        //registry.addInterceptor(new LoginInterceptor());
     }
 }
