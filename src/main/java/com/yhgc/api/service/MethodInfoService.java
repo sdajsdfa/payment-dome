@@ -2,10 +2,13 @@ package com.yhgc.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yhgc.api.entity.MenuInfo;
 import com.yhgc.api.entity.MethodInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yhgc.api.vo.MethodInfoVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,4 +25,6 @@ public interface MethodInfoService extends IService<MethodInfo> {
     IPage<MethodInfoVo> searchPage(Page<MethodInfoVo> page, @Param("query") String query);
 
     MethodInfoVo getByIdMethodInfo(Long id);
+
+    List<MethodInfo> selectMenuInfo();
 }

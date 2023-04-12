@@ -2,6 +2,7 @@ package com.yhgc.api.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yhgc.api.entity.MenuInfo;
 import com.yhgc.api.entity.MethodInfo;
 import com.yhgc.api.mapper.MethodInfoMapper;
 import com.yhgc.api.service.MethodInfoService;
@@ -10,6 +11,7 @@ import com.yhgc.api.vo.MethodInfoVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -38,6 +40,11 @@ public class MethodInfoServiceImpl extends ServiceImpl<MethodInfoMapper, MethodI
     @Override
     public MethodInfoVo getByIdMethodInfo(Long id) {
         return methodInfoMapper.getByIdMethodInfo(id);
+    }
+
+    @Override
+    public List<MethodInfo> selectMenuInfo() {
+        return methodInfoMapper.selectMenuInfo();
     }
 
 }

@@ -3,7 +3,9 @@ package com.yhgc.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.deploy.util.StringUtils;
 import com.yhgc.api.entity.MethodInfo;
+import com.yhgc.api.entity.ProjectInfo;
 import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.MethodInfoService;
 import com.yhgc.api.service.ProjectFilesService;
@@ -15,7 +17,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -41,6 +49,30 @@ public class MethodInfoController {
 
     @Resource
     private ProjectInfoService projectinfoService;
+
+
+
+    @ApiOperation("测试")
+    @GetMapping(value = "/queryByMethodInfo1212")
+    public void queryByMethodInfo1212() {
+        String Number ="";
+        SimpleDateFormat f = new SimpleDateFormat("yyyy");
+        String date = f.format(new Date(System.currentTimeMillis()));
+        List<MethodInfo> list = methodInfoService.selectMenuInfo();
+        if(list.size() > 0){
+            int count = list.size();
+            String d =list.get(count-1).getSerialNo();
+            int intNumber = Integer.parseInt(d.substring(6,10));
+            intNumber++;
+           Number = String.valueOf(intNumber);
+            for (int i = 0; i < 4; i++){
+                Number = Number.length() < 4 ? "0" + Number : Number;
+            }
+            Number = "W" + date+ "-" + Number + "DY";
+        }else{
+           Number = "W" + date + "-"+ "0001DY";
+        }
+    }
 
     /**
      * 查询检测方法分类
@@ -144,9 +176,27 @@ public class MethodInfoController {
             }
             return R.error("添加检测项目失败");
         }else {
+            String Number ="";
+            SimpleDateFormat f = new SimpleDateFormat("yyyy");
+            String date = f.format(new Date(System.currentTimeMillis()));
+            List<MethodInfo> list = methodInfoService.selectMenuInfo();
+            if(list.size() > 0){
+                int count = list.size();
+                String d =list.get(count-1).getSerialNo();
+                int intNumber = Integer.parseInt(d.substring(6,10));
+                intNumber++;
+                Number = String.valueOf(intNumber);
+                for (int i = 0; i < 4; i++){
+                    Number = Number.length() < 4 ? "0" + Number : Number;
+                }
+                Number = "W" + date+ "-" + Number + "DY";
+            }else{
+                Number = "W" + date + "-"+ "0001DY";
+            }
             QueryWrapper<MethodInfo> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("id", methodInfo.getId());
             methodInfo.setCreateTime(new Date());
+            methodInfo.setSerialNo(Number);
             Boolean p = methodInfoService.update(methodInfo,queryWrapper);
             if (!p) {
                 return R.error("修改检测方法分类失败");
@@ -279,5 +329,88 @@ public class MethodInfoController {
         map.put("methodInfo",methodInfo);
         return R.ok(map);
     }
+
+
+    /**
+     * 下载原始文件
+     * @param path
+     * @param response
+     * @return
+     */
+    @ApiOperation("下载原始文件")
+    @GetMapping("/downloadOriginFile")
+    public void downloadOriginFile(String path, HttpServletResponse response){
+        try {
+            // path是指欲下载的文件的路径。
+            File file = new File(path);
+            // 取得文件名。
+            String filename = file.getName();
+            // 取得文件的后缀名。
+            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+            // 以流的形式下载文件。
+            InputStream fis = new BufferedInputStream(new FileInputStream(path));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    @ApiOperation("上传原始文件")
+    @GetMapping("/uploadOriginFile")
+    //requestParam要写才知道是前台的那个数组
+    public R uploadOriginFile(@RequestParam("file") MultipartFile file) {
+        // 保存文件
+        String files =saveFile(file);
+        if(files==null){
+           return R.error("文件上传失败");
+        }
+        return R.ok("文件上传成功");//跳转的页面
+    }
+
+    private String saveFile(MultipartFile file) {
+        // 判断文件是否为空
+        if (!file.isEmpty()) {
+            try {
+                // 保存的文件路径(如果用的是Tomcat服务器，文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\upload\\文件夹中// )
+//                String filePath = request.getSession().getServletContext()
+//                        .getRealPath("/")
+//                        + "upload/" + file.getOriginalFilename();
+                Set<String> typeSet = new HashSet<>();
+                typeSet.add(".zip");
+                String originalFileName = file.getOriginalFilename();
+                String suffix = originalFileName.substring(originalFileName.lastIndexOf('.'));
+                if(!typeSet.contains(suffix)){
+                    return null;
+                }
+                //2、使用UUID生成新文件名
+                String newFileName = UUID.randomUUID() + suffix;
+
+                String filePath = "C:\\data\\payment-dome\\src\\main\\webapps\\upload\\" + newFileName;
+                File saveDir = new File(filePath);
+                if (!saveDir.getParentFile().exists())
+                    saveDir.getParentFile().mkdirs();
+                // 转存文件
+                file.transferTo(saveDir);
+                return filePath;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }
 

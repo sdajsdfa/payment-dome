@@ -48,7 +48,11 @@ public class MethodInfo implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "状态")
+    @ApiModelProperty(value = "检测编号")
+    @TableField("serialNo")
+    private String serialNo;
+
+    @ApiModelProperty(value = "状态 5(检测完成)4(检测中)3(待检测)")
     private Integer status;
 
 

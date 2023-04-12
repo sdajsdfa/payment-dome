@@ -27,7 +27,9 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql日志
+#    map-underscore-to-camel-case: true
   mapper-locations: classpath:com/yhgc/api/mapper/xml/*.xml
+  type-aliases-package: com.yhgc.api.entity
 
 redis:
   host: 127.0.0.1

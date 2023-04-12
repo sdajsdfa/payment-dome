@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yhgc.api.vo.MethodInfoVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 检测方法分类 Mapper 接口
@@ -22,5 +24,7 @@ public interface MethodInfoMapper extends BaseMapper<MethodInfo> {
     IPage<MethodInfoVo> searchPage(@Param("page") Page<MethodInfoVo> page, @Param("query") String query);
 
     MethodInfoVo getByIdMethodInfo(@Param("id") Long id);
+
+    List<MethodInfo> selectMenuInfo();
 
 }
