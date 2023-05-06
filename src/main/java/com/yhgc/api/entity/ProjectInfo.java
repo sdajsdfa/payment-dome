@@ -55,7 +55,6 @@ public class ProjectInfo implements Serializable {
     @TableField("declareTime")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "GMT+8")
     private Date declareTime;
 
     @ApiModelProperty(value = "行业id")
@@ -105,7 +104,6 @@ public class ProjectInfo implements Serializable {
     @TableField("createTime")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "备注")
@@ -113,15 +111,5 @@ public class ProjectInfo implements Serializable {
 
     @ApiModelProperty(value = "图片")
     private String picture;
-
-//    @ApiModelProperty(value = "图片")
-//    private MultipartFile[] files;
-
-//    @ApiModelProperty(value = "备注")
-//    private Integer pageSize;
-//
-//    @ApiModelProperty(value = "备注")
-//    private Integer pageNum;
-
 
 }

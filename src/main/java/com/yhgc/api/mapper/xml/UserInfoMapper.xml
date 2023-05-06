@@ -8,6 +8,13 @@
             <if test="query != null and query != ''">
                 name like concat('%',#{query},'%') or account like concat('%',#{query},'%')
             </if>
+            and status = 0
         </where>
+    </select>
+    <select id="getUserById" resultType="com.yhgc.api.dto.UserInfoDto">
+        select * from user_info where id = #{id}
+    </select>
+    <select id="queryAllName" resultType="com.yhgc.api.vo.UserInfoVo">
+        select id,name from user_info where status = 0
     </select>
 </mapper>

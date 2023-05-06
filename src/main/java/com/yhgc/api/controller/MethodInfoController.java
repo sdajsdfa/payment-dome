@@ -82,7 +82,7 @@ public class MethodInfoController {
      */
     @ApiOperation("查询检测方法分类")
     @GetMapping(value = "/queryByMethodInfo")
-    @UserinfoLoginToken
+//    @UserinfoLoginToken
     public R queryByMethodInfo(Long id) {
         Map<String, Object> map = new HashMap<>();
         MethodInfo methodInfo = methodInfoService.getByIdMethodInfo(id);
@@ -98,7 +98,7 @@ public class MethodInfoController {
      */
     @ApiOperation("查询检测方法分类")
     @GetMapping(value = "/queryAllMethodInfo")
-//    @UserinfoLoginToken
+    @UserinfoLoginToken
     public R queryAllMethodInfo(Integer pageNum, Integer pageSize, String query) {
         Map<String, Object> map = new HashMap<>();
         MethodInfo methodInfo = new MethodInfo();
@@ -155,27 +155,10 @@ public class MethodInfoController {
      */
     @ApiOperation(value = "添加和修改检测方法分类",httpMethod = "POST")
     @PostMapping (value = "/addUpdateMethodInfo")
-    @UserinfoLoginToken
+//    @UserinfoLoginToken
     public R addUpdateMethodInfo(@RequestBody MethodInfo methodInfo) {
         Map<String,Object> map = new HashMap<>();
         if(methodInfo.getId()<0){
-            if(methodInfo.getMethodId()==null){
-                methodInfo.setMethodId(-1);
-            }
-            if(methodInfo.getMethodId()!=-1){
-                if(projectinfoService.getById(methodInfo.getMethodId())==null){
-                    return R.error("必须要有工程名称");
-                };
-            }
-            methodInfo.setCreateTime(new Date());
-            methodInfo.setStatus(0);
-            int ui = methodInfoService.saveMethodInfo(methodInfo);
-            if (ui==1) {
-                map.put("methodInfo",methodInfoService.getById(methodInfo.getId()));
-                return R.ok(map);
-            }
-            return R.error("添加检测项目失败");
-        }else {
             String Number ="";
             SimpleDateFormat f = new SimpleDateFormat("yyyy");
             String date = f.format(new Date(System.currentTimeMillis()));
@@ -193,10 +176,46 @@ public class MethodInfoController {
             }else{
                 Number = "W" + date + "-"+ "0001DY";
             }
+
+            if(methodInfo.getMethodId()==null){
+                methodInfo.setMethodId(-1);
+            }
+            if(methodInfo.getMethodId()!=-1){
+                if(projectinfoService.getById(methodInfo.getMethodId())==null){
+                    return R.error("必须要有工程名称");
+                };
+            }
+            methodInfo.setCreateTime(new Date());
+            methodInfo.setStatus(0);
+            methodInfo.setSerialNo(Number);
+            int ui = methodInfoService.saveMethodInfo(methodInfo);
+            if (ui==1) {
+                map.put("methodInfo",methodInfoService.getById(methodInfo.getId()));
+                return R.ok(map);
+            }
+            return R.error("添加检测项目失败");
+        }else {
+//            String Number ="";
+//            SimpleDateFormat f = new SimpleDateFormat("yyyy");
+//            String date = f.format(new Date(System.currentTimeMillis()));
+//            List<MethodInfo> list = methodInfoService.selectMenuInfo();
+//            if(list.size() > 0){
+//                int count = list.size();
+//                String d =list.get(count-1).getSerialNo();
+//                int intNumber = Integer.parseInt(d.substring(6,10));
+//                intNumber++;
+//                Number = String.valueOf(intNumber);
+//                for (int i = 0; i < 4; i++){
+//                    Number = Number.length() < 4 ? "0" + Number : Number;
+//                }
+//                Number = "W" + date+ "-" + Number + "DY";
+//            }else{
+//                Number = "W" + date + "-"+ "0001DY";
+//            }
             QueryWrapper<MethodInfo> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("id", methodInfo.getId());
             methodInfo.setCreateTime(new Date());
-            methodInfo.setSerialNo(Number);
+//            methodInfo.setSerialNo(Number);
             Boolean p = methodInfoService.update(methodInfo,queryWrapper);
             if (!p) {
                 return R.error("修改检测方法分类失败");
@@ -279,7 +298,7 @@ public class MethodInfoController {
      */
     @ApiOperation("查询工程详细信息")
     @GetMapping(value = "/queryMethodInfo")
-    @UserinfoLoginToken
+//    @UserinfoLoginToken
     public R queryMethodInfo(Long methodId) {
         Map<String,Object> map = new HashMap<>();
         QueryWrapper<MethodInfo> queryWrapper = new QueryWrapper<>();

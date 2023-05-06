@@ -130,7 +130,6 @@ public class ProjectInfoController {
     @PostMapping (value = "/addUpdateProjectInfo")
     @UserinfoLoginToken
     public R addUpdateProjectInfo(ProjectInfo projectinfo,@RequestParam("files")MultipartFile[] files, HttpServletRequest request) {
-        System.out.println(files.length+"-------------");
         List list = new ArrayList();
         if (files != null && files.length > 0) {
             for (int i = 0; i < files.length; i++) {
@@ -148,8 +147,6 @@ public class ProjectInfoController {
             projectinfo.setCreateTime(new Date());
             projectinfo.setStatus(0);
             Boolean ui = projectinfoService.saveProject(projectinfo);
-
-            System.out.println(projectinfo.getId()+"===============================");
             if (!ui) {
                 return R.error("添加工程失败");
             }
@@ -162,11 +159,6 @@ public class ProjectInfoController {
             }
             return R.ok("添加工程成功");
         }else {
-//            projectinfo.setCreateTime(new Date());
-//            projectinfo.setDeclareTime(new Date());
-//            QueryWrapper<ProjectInfo> queryWrapper = new QueryWrapper<>();
-//            queryWrapper.eq("id", projectinfo.getId());
-//            queryWrapper.eq("status", 1);
             Boolean p = projectinfoService.updateProject(projectinfo);
             if (!p) {
                 return R.error("修改工程失败");
@@ -207,7 +199,6 @@ public class ProjectInfoController {
     @PostMapping("/declareCheckProject")
     @UserinfoLoginToken
     public R declareCheckProject(ProjectInfo projectinfo) {
-//        System.out.println(projectinfo.getFiles().length+"-------------");
         projectinfo.setDeclareTime(new Date());
         projectinfo.setCreateTime(new Date());
         projectinfo.setStatus(0);
@@ -224,7 +215,6 @@ public class ProjectInfoController {
     //requestParam要写才知道是前台的那个数组
     public String filesUpload(@RequestParam("myfiles") MultipartFile[] files, HttpServletRequest request) {
         List list = new ArrayList();
-        System.out.println(files.length+"-------------");
         if (files != null && files.length > 0) {
             for (int i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];

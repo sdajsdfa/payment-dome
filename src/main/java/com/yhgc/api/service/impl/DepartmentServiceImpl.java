@@ -1,5 +1,6 @@
 package com.yhgc.api.service.impl;
 
+import com.yhgc.api.dto.DepartmentDto;
 import com.yhgc.api.entity.Department;
 import com.yhgc.api.mapper.DepartmentMapper;
 import com.yhgc.api.service.DepartmentService;
@@ -27,5 +28,30 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public List<DepartmentVo> verificationList() {
         return departmentMapper.verificationList();
+    }
+
+    @Override
+    public List<DepartmentDto> dptList() {
+        return departmentMapper.dptList();
+    }
+
+    @Override
+    public DepartmentDto getDptById(Long id) {
+        return departmentMapper.getDptById(id);
+    }
+
+    @Override
+    public Boolean updateDepartment(DepartmentDto departmentDto) {
+        return departmentMapper.updateDepartment(departmentDto);
+    }
+
+    @Override
+    public Boolean saveDpt(DepartmentDto departmentDto) {
+        return departmentMapper.saveDpt(departmentDto);
+    }
+
+    @Override
+    public Department getOneDpt(String dptName) {
+        return departmentMapper.getOneDpt(dptName);
     }
 }

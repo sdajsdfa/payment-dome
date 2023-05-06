@@ -5,6 +5,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -89,4 +90,12 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty(value = "图片")
     private String picture;
+
+    @ApiModelProperty(value = "角色列表")
+    @TableField(exist = false)
+    private List<String> roleNames;
+
+    @ApiModelProperty(value = "所属部门")
+    @TableField(exist = false)
+    private List<String> organizationName;
 }

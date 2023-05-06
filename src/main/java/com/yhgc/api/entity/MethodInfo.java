@@ -55,5 +55,28 @@ public class MethodInfo implements Serializable {
     @ApiModelProperty(value = "状态 5(检测完成)4(检测中)3(待检测)")
     private Integer status;
 
+    @ApiModelProperty(value = "检测负责人")
+    @TableField("userInfoName")
+    private String userInfoName;
+
+    @ApiModelProperty(value = "检测负责人id")
+    @TableField("userInfoId")
+    private Long userInfoId;
+
+    @ApiModelProperty(value = "抽检类型")
+    @TableField("sampleRatio")
+    private String sampleRatio;
+
+    @ApiModelProperty(value = "检测依据")
+    @TableField("testStandard")
+    private String testStandard;
+
+    @ApiModelProperty(value = "检测数量(根)")
+    @TableField("testMum")
+    private String testMum;
+
+    @ApiModelProperty(value = "检测批总数(根)")
+    @TableField("pileNum")
+    private String pileNum;
 
 }

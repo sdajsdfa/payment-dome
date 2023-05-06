@@ -5,15 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.deploy.util.StringUtils;
-import com.yhgc.api.entity.MethodInfo;
-import com.yhgc.api.entity.ProjectInfo;
-import com.yhgc.api.entity.UserInfo;
+import com.yhgc.api.dto.UserInfoDto;
+import com.yhgc.api.entity.*;
 import com.yhgc.api.enums.StatusEnum;
-import com.yhgc.api.service.UserInfoService;
-import com.yhgc.api.service.UserinfoLoginToken;
+import com.yhgc.api.service.*;
 import com.yhgc.api.util.R;
 import com.yhgc.api.util.TokenUtils;
 import com.yhgc.api.vo.MethodInfoVo;
+import com.yhgc.api.vo.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -55,6 +55,17 @@ public class UserInfoController {
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private UserRoleService userRoleService;
+
+    @Resource
+    private RoleService roleService;
+
+    @Resource
+    private DepartmentService departmentService;
+
+    @Resource
+    private UserDptService userDptService;
     public static Map<String, UserInfo> sessionUsermap = new HashMap<>();
 
 
@@ -205,9 +216,9 @@ public class UserInfoController {
      */
     @ApiOperation(value = "添加和修改用户信息",httpMethod = "POST")
     @PostMapping (value = "/addUpdateUserInfo")
-    @UserinfoLoginToken
+//    @UserinfoLoginToken
     public R addUpdateUserInfo(UserInfo userInfo, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
-        System.out.println(files.length+"-------------");
+        System.out.println(files.length+"-------------"+userInfo);
         List list = new ArrayList();
         if (files != null && files.length > 0) {
             for (int i = 0; i < files.length; i++) {
@@ -220,7 +231,7 @@ public class UserInfoController {
             }
         }
         userInfo.setPicture(StringUtils.join(Arrays.asList(list.toArray()),", "));
-        if(userInfo.getId()<0){
+        if(userInfo.getId()<1){
 //            String account = userInfo.getAccount().replaceAll("\\s", "");
             String account = userInfo.getAccount();
             String password = "123456";
@@ -235,12 +246,12 @@ public class UserInfoController {
             if (qa != null){
                 return R.error("用户名已经被注册");
             }
-            QueryWrapper<UserInfo> queryIdCard = new QueryWrapper<>();
-            queryIdCard.eq("idCard",idCard);
-            UserInfo qc =  userinfoService.getOne(queryIdCard);
-            if (qc != null){
-                return R.error("身份证已经被注册");
-            }
+//            QueryWrapper<UserInfo> queryIdCard = new QueryWrapper<>();
+//            queryIdCard.eq("idCard",idCard);
+//            UserInfo qc =  userinfoService.getOne(queryIdCard);
+//            if (qc != null){
+//                return R.error("身份证已经被注册");
+//            }
             QueryWrapper<UserInfo> queryPhoneNum = new QueryWrapper<>();
             queryPhoneNum.eq("phoneNum",phoneNum);
             UserInfo qp =  userinfoService.getOne(queryPhoneNum);
@@ -255,11 +266,77 @@ public class UserInfoController {
             if (!b) {
                 return R.error("添加用户信息失败");
             }
+
+            List<Long> roleMenu = new ArrayList<>();
+            for (String roleName:userInfo.getRoleNames()) {
+                Role role = roleService.getOneRole(roleName);
+                roleMenu.add(role.getId());
+            }
+            List<UserRole> userRoles = new ArrayList<>();
+            Arrays.stream(roleMenu.toArray(new Long[0])).forEach(r -> {
+                UserRole sysUserRole = new UserRole();
+                sysUserRole.setRoleId(Long.valueOf(r));
+                sysUserRole.setUserId(userInfo.getId());
+                userRoles.add(sysUserRole);
+            });
+            userRoleService.remove(new QueryWrapper<UserRole>().eq("user_id", userInfo.getId()));
+            userRoleService.saveBatch(userRoles);
+
+
+            List<Long> organizationNames = new ArrayList<>();
+            for (String organizationName:userInfo.getOrganizationName()) {
+                Department department = departmentService.getOneDpt(organizationName);
+                organizationNames.add(department.getId());
+            }
+            List<UserDpt> userDpts = new ArrayList<>();
+            Arrays.stream(organizationNames.toArray(new Long[0])).forEach(d -> {
+                UserDpt userDpt = new UserDpt();
+                userDpt.setDtpId(Long.valueOf(d));
+                userDpt.setUserId(userInfo.getId());
+                userDpts.add(userDpt);
+            });
+            userDptService.remove(new QueryWrapper<UserDpt>().eq("user_id", userInfo.getId()));
+            userDptService.saveBatch(userDpts);
+
+
             return R.ok("添加用户信息成功");
         }else {
+            System.out.println(userInfo+"============");
             QueryWrapper<UserInfo> query = new QueryWrapper<>();
             query.eq("id",userInfo.getId());
             Boolean p = userinfoService.update(userInfo,query);
+
+            List<Long> roleMenu = new ArrayList<>();
+            for (String roleName:userInfo.getRoleNames()) {
+                Role role = roleService.getOneRole(roleName);
+                roleMenu.add(role.getId());
+            }
+            List<UserRole> userRoles = new ArrayList<>();
+            Arrays.stream(roleMenu.toArray(new Long[0])).forEach(r -> {
+                UserRole sysUserRole = new UserRole();
+                sysUserRole.setRoleId(Long.valueOf(r));
+                sysUserRole.setUserId(userInfo.getId());
+                userRoles.add(sysUserRole);
+            });
+            userRoleService.remove(new QueryWrapper<UserRole>().eq("user_id", userInfo.getId()));
+            userRoleService.saveBatch(userRoles);
+
+
+            List<Long> organizationNames = new ArrayList<>();
+            for (String organizationName:userInfo.getOrganizationName()) {
+                Department department = departmentService.getOneDpt(organizationName);
+                organizationNames.add(department.getId());
+            }
+            List<UserDpt> userDpts = new ArrayList<>();
+            Arrays.stream(organizationNames.toArray(new Long[0])).forEach(d -> {
+                UserDpt userDpt = new UserDpt();
+                userDpt.setDtpId(Long.valueOf(d));
+                userDpt.setUserId(userInfo.getId());
+                userDpts.add(userDpt);
+            });
+            userDptService.remove(new QueryWrapper<UserDpt>().eq("user_id", userInfo.getId()));
+            userDptService.saveBatch(userDpts);
+
             if (!p) {
                 return R.error("修改用户信息失败");
             }
@@ -309,8 +386,25 @@ public class UserInfoController {
     @ApiOperation("根据ID查看用户信息")
     @GetMapping(value = "/getByIdUser")
     public R getByIdUser(Long id) {
+        List<String> roleMenu = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
-        UserInfo userInfo = userinfoService.getById(id);
+        UserInfoDto userInfo = userinfoService.getUserById(id);
+        List<UserRole> roleMenus = userRoleService.list(new QueryWrapper<UserRole>().eq("user_id", id));
+        List<Long> roleIds = roleMenus.stream().map(p -> p.getRoleId()).collect(Collectors.toList());
+        for (int i= 0;i<roleIds.size();i++){
+           Role role = roleService.getById(roleIds.get(i));
+           roleMenu.add(role.getName());
+        }
+
+        List<String> userDpt = new ArrayList<>();
+        List<UserDpt> userDpts = userDptService.list(new QueryWrapper<UserDpt>().eq("user_id", id));
+        List<Long> dptIds = userDpts.stream().map(p -> p.getDtpId()).collect(Collectors.toList());
+        for (int i= 0;i<dptIds.size();i++){
+            Department department = departmentService.getById(dptIds.get(i));
+            userDpt.add(department.getDptName());
+        }
+        userInfo.setRoleNames(roleMenu);
+        userInfo.setOrganizationName(userDpt);
         map.put("userInfo",userInfo);
         return R.ok(map);
     }
@@ -534,6 +628,18 @@ public class UserInfoController {
         }else {
             return R.error("管理员密码错误");
         }
+    }
+
+    /**
+     * 查询所有用户名称
+     */
+    @ApiOperation("查询所有用户名称")
+    @GetMapping(value = "/queryAllName")
+    public R queryAllName() {
+        Map<String,Object> map = new HashMap<>();
+        List<UserInfoVo> userInfoVos =userinfoService.queryAllName();
+        map.put("userInfo",userInfoVos);
+        return R.ok(map);
     }
 }
 
