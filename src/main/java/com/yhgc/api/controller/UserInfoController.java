@@ -99,16 +99,19 @@ public class UserInfoController {
     @ApiOperation("登录接口")
     @PostMapping(value = "/login")
     public R login(UserInfo user, HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(user+"============="+redisTemplate.opsForValue().get("code"));
         Map<String,Object> map = new HashMap<>();
         if (user.getAccount() == null || user.getPassWord() == null ) {
             return R.error("输入的用户名或密码不能为空");
         }
-//        if(request.getSession(true).getAttribute("code")==null){
-//            return R.error("验证码不能为空, 请输入验证码!");
-//        }
-//        if(!(request.getSession(true).getAttribute("code").equals(code))){
-//            return R.error("验证码错误, 请重新输入验证码!");
-//        }
+        String redisCode = (String) redisTemplate.opsForValue().get("code");
+        if(redisCode==null){
+            return R.error("验证码不能为空, 请输入验证码!");
+        }
+
+        if(!(redisCode.equalsIgnoreCase(user.getCode()))){
+            return R.error("验证码错误, 请重新输入验证码!");
+        }
         System.out.println(user.getAccount());
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", user.getAccount());
@@ -553,9 +556,10 @@ public class UserInfoController {
             g.setColor(new Color((int) (Math.random()*255), (int) (Math.random()*255), (int) (Math.random()*255)));
             g.drawLine((int) (Math.random()*50),(int) (Math.random()*30),(int) (Math.random()*80),(int) (Math.random()*80));
         }
+        redisTemplate.opsForValue().set("code",text);
         //设置session
-        request.getSession(true).setAttribute("code",text);
-        request.getSession(true).setMaxInactiveInterval(60);
+//        request.getSession(true).setAttribute("code",text);
+//        request.getSession(true).setMaxInactiveInterval(60);
         //response.setContentType("image/png");
         //输出图像
         //ImageIO.write(image, "png", new FileOutputStream("C:/Users/H/Desktop/"+tet+".png"));

@@ -10,6 +10,14 @@
         update project_info set unitId= #{unitId},projectName=  #{projectName},projectAddr= #{projectAddr},declareTime=  #{declareTime},sectorId= #{sectorId},sectorName=  #{sectorName},methodId= #{methodId},testMethod=  #{testMethod},serialNo= #{serialNo},testCount=  #{testCount},accountId= #{accountId},accountName=  #{accountName},reportId= #{reportId},reportName=  #{reportName},status= #{status},createTime=  #{createTime},remark= #{remark},picture=  #{picture} where id =  #{id}
     </update>
     <select id="verificationList" resultType="com.yhgc.api.vo.ProjectInfoVo">
-        select id,projectName from project_info where status=0
+        select id,projectName from project_info where 1=1
+    </select>
+    <select id="searchPage" resultType="com.yhgc.api.dto.ProjectInfoDto">
+        select id,projectName,jdCode,concat(replace(substring(projectAddr, 1, 99),',',''),projectAddress) as projectAddress,creationTime,filinfStatus,projectType  from project_info
+        <where>
+            <if test="query != null and query != ''">
+                projectName like concat('%',#{query},'%') or jdCode like concat('%',#{query},'%')
+            </if>
+        </where>
     </select>
 </mapper>

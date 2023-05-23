@@ -30,7 +30,6 @@ mybatis-plus:
 #    map-underscore-to-camel-case: true
   mapper-locations: classpath:com/yhgc/api/mapper/xml/*.xml
   type-aliases-package: com.yhgc.api.entity
-
 redis:
   host: 127.0.0.1
   post: 6379

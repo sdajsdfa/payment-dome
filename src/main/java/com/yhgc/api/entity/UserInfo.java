@@ -98,4 +98,8 @@ public class UserInfo implements Serializable {
     @ApiModelProperty(value = "所属部门")
     @TableField(exist = false)
     private List<String> organizationName;
+
+    @ApiModelProperty(value = "验证码")
+    @TableField(exist = false)
+    private String code;
 }

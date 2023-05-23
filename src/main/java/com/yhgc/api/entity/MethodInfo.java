@@ -29,10 +29,6 @@ public class MethodInfo implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "行业id")
-    @TableField("sectorId")
-    private Long sectorId;
-
     @ApiModelProperty(value = "方法id")
     @TableField("methodId")
     private Integer methodId;
@@ -73,10 +69,10 @@ public class MethodInfo implements Serializable {
 
     @ApiModelProperty(value = "检测数量(根)")
     @TableField("testMum")
-    private String testMum;
+    private Integer testMum;
 
     @ApiModelProperty(value = "检测批总数(根)")
     @TableField("pileNum")
-    private String pileNum;
+    private Integer pileNum;
 
 }

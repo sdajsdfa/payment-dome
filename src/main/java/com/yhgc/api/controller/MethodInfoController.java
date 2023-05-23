@@ -3,9 +3,7 @@ package com.yhgc.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sun.deploy.util.StringUtils;
 import com.yhgc.api.entity.MethodInfo;
-import com.yhgc.api.entity.ProjectInfo;
 import com.yhgc.api.enums.StatusEnum;
 import com.yhgc.api.service.MethodInfoService;
 import com.yhgc.api.service.ProjectFilesService;
@@ -18,9 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -303,7 +299,7 @@ public class MethodInfoController {
         Map<String,Object> map = new HashMap<>();
         QueryWrapper<MethodInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("methodId",methodId);
-        queryWrapper.eq("status",0);
+//        queryWrapper.eq("status",0);
         List<MethodInfo> methodInfo = methodInfoService.list(queryWrapper);
         map.put("methodInfo",methodInfo);
         return R.ok(map);
@@ -338,7 +334,7 @@ public class MethodInfoController {
      */
     @ApiOperation("查询检测方法分类")
     @GetMapping(value = "/queryByMethodInfoId")
-    @UserinfoLoginToken
+//    @UserinfoLoginToken
     public R queryByMethodInfoId() {
         Map<String, Object> map = new HashMap<>();
         QueryWrapper<MethodInfo> queryWrapper = new QueryWrapper<>();

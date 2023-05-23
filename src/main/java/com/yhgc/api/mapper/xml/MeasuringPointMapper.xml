@@ -27,7 +27,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        mi.id,mi.sectorId,mi.testMthod,
+        mi.id,mi.testMthod,
         mi.createTime,mi.remark,mi.methodId,
         mi.status,p.projectName as projectName,pileNo,pileDiameter,
         sgPileLength,designPileLength,pileDate,

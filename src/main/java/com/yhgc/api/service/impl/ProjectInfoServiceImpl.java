@@ -1,5 +1,8 @@
 package com.yhgc.api.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yhgc.api.dto.ProjectInfoDto;
 import com.yhgc.api.entity.ProjectInfo;
 import com.yhgc.api.mapper.ProjectInfoMapper;
 import com.yhgc.api.service.ProjectInfoService;
@@ -38,4 +41,10 @@ public class ProjectInfoServiceImpl extends ServiceImpl<ProjectInfoMapper, Proje
     public List<ProjectInfoVo> verificationList() {
         return projectInfoMapper.verificationList();
     }
+
+    @Override
+    public IPage<ProjectInfoDto> searchPage(Page<ProjectInfoDto> page, String query) {
+        return projectInfoMapper.searchPage(page,query);
+    }
+
 }
