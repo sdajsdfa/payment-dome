@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.TestMapper">
+
+    <select id="pageQueryAllTest" resultType="com.yhgc.api.vo.TestVo">
+        select t.Id,t.ProjectId,t.CompId,t.ClientType,t.TestMethod,t.TestBase,t.TestCount,t.TestStatus,t.TestBatchTotal,t.SamplingType,t.Tester,t.Valid,t.SerialNo,t.CreationTime,p.ProjectName as ProjectName from test t left join project p on t.ProjectId = p.Id
+        <where>
+            <if test="query != null and query != ''">
+                p.ProjectName like concat('%',#{query},'%') or t.SerialNo like concat('%',#{query},'%')
+            </if>
+            <if test="compId != null and compId != ''">
+                t.CompId =#{compId}
+            </if>
+        </where>
+        ORDER BY t.CreationTime DESC
+    </select>
+    <select id="selectTestDY" resultType="com.yhgc.api.entity.Test">
+        select * from test where SerialNo like "W2023-%DY" order by SerialNo asc
+    </select>
+    <select id="queryTest" resultType="com.yhgc.api.vo.TestVo">
+        select t.Id,t.ProjectId,t.CompId,t.ClientType,t.TestMethod,t.Description,t.TestBase,t.TestCount,t.TestStatus,t.TestBatchTotal,t.SamplingType,t.Tester,t.Valid,t.SerialNo,t.CreationTime,p.ProjectName as ProjectName from test t left join project p on  t.ProjectId = p.Id
+        where t.Id = #{id}
+    </select>
+    <select id="selectTestGY" resultType="com.yhgc.api.entity.Test">
+        select * from test where SerialNo like "W2023-%GY" order by SerialNo asc
+    </select>
+    <select id="selectTestSC" resultType="com.yhgc.api.entity.Test">
+        select * from test where SerialNo like "W2023-%SC" order by SerialNo asc
+    </select>
+</mapper>

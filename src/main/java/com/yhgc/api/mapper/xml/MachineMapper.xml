@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.MachineMapper">
+
+    <insert id="saveMachine" parameterType="com.yhgc.api.entity.Machine">
+        insert into machine(CompId,Type,Model,DeviceId,MachineId,RangeNumber,Division,Remark,VerificationCircle,IsForce,Status,Location,Start,Manufactor,Number,AcquisitionDate,ProductionDate,Price,Valid,Name,JdStatus)
+        values(#{CompId},#{Type},#{Model},#{DeviceId},#{MachineId},#{RangeNumber},#{Division},#{Remark},#{VerificationCircle},#{IsForce},#{Status},#{Location},#{Start},#{Manufactor},#{Number},#{AcquisitionDate},#{ProductionDate},#{Price},#{Valid},#{Name},#{JdStatus})
+    </insert>
+
+    <select id="pageQueryAllMachine" resultType="com.yhgc.api.vo.MachineVo">
+        select m.Id,m.Type,m.DeviceId,m.Manufactor,m.Name,m.Status,m.JdStatus,v.VerifEndDate as VerifEndDate from machine m left join verification v on m.MachineId = v.MachineId
+        <where>
+            <if test="query != null and query != ''">
+                m.Name like concat('%',#{query},'%') or m.DeviceId like concat('%',#{query},'%')
+            </if>
+            <if test="compId != null and compId != ''">
+                m.CompId =#{compId}
+            </if>
+        </where>
+    </select>
+</mapper>

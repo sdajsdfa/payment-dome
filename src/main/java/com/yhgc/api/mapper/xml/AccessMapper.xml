@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.AccessMapper">
+
+    <update id="updateAccess" parameterType="com.yhgc.api.entity.Access">
+        update access set SystemManage=0 ,CompInfo= 0,CompInfoLook= 0,CompInfoEdit= 0, Struct=0, User=0, Role=0, ReportMamage=0, Analysis=0, MiddleReport=0, ReportEdite=0,
+                          ReportSubmit=0,  ReportCheck=0, ReportReview=0, ReportRatify=0, ReportPublish=0, ReportUpload=0, ReportDelete=0, ReportRatifyCxl=0, ReportLook=0,
+                          ReportDownload=0, ProjectManage=0, ProjectRegister=0, ProjectQuery=0, ProjectAdd=0, ProjectEdite=0, ProjectAlert=0, ProjectSave=0, ProjectContract=0,
+                          TaskManage=0, TaskInfo=0, TaskQuery=0, TaskAdd=0, TaskEdite=0, TaskAlert=0, TaskDelete=0, TaskPrint=0, TaskAccept=0, MachineManage=0, MachineInfo=0,
+                          MachineQuery=0,MachineAdd=0, MachineEdite=0, MachineDelete=0, MachineVerif=0, TestManage=0, SceneInfo=0, SceneQuery=0, SceneEdit=0, SceneAlert=0,
+                          TestData=0, UnknownData=0, DataDownload=0, UserQuery=0, UserDelete=0, UserEdite=0, UserResetPassword=0, UserAdd=0, RoleEdite=0, RoleAdd=0, RoleDelete=0 where RoleId =  #{roleId}
+    </update>
+</mapper>

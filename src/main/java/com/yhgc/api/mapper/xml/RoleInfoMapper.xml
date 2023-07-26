@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.RoleInfoMapper">
+
+    <select id="getOneRoleInfo" resultType="com.yhgc.api.entity.RoleInfo">
+            select * from role_info where Name = #{Name}
+    </select>
+    <select id="queryRoleName" resultType="com.yhgc.api.vo.RoleInfoVo">
+        select ID,RoleName from role_info where 1=1
+    </select>
+    <select id="pageQueryAllRoleInfo" resultType="com.yhgc.api.entity.RoleInfo">
+        select Id,CompId,RoleName,RoleDescription,RoleAccess,IsAdmin,CreateDate,Valid from role_info
+        <where>
+            <if test="query != null and query != ''">
+                RoleName like concat('%',#{query},'%')
+            </if>
+            <if test="compId != null and compId != ''">
+                CompId =#{compId}
+            </if>
+        </where>
+        Order By CreateDate Desc
+    </select>
+</mapper>

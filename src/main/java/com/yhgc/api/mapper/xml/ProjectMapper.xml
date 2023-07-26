@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.ProjectMapper">
+
+    <select id="pageQueryAllProject" resultType="com.yhgc.api.vo.ProjectVo">
+        select Id,ProjectName,SuperviseNo,concat(replace(substring(ProjectCity, 1, 99),',',''),ProjectAddress) as ProjectAddress,CreationTime,FilingStatus,Layout,Geology from project
+        <where>
+            <if test="query != null and query != ''">
+                ProjectName like concat('%',#{query},'%') or SuperviseNo like concat('%',#{query},'%')
+            </if>
+            <if test="compId != null and compId != ''">
+                CompId =#{compId}
+            </if>
+        </where>
+        Order By CreationTime Desc
+    </select>
+    <select id="verificationList" resultType="com.yhgc.api.vo.ProjectNameVo">
+        select Id,ProjectName from project where 1=1
+    </select>
+</mapper>

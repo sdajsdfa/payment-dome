@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.TenantMapper">
+
+    <select id="pageQueryAllTenant" resultType="com.yhgc.api.entity.Tenant">
+        select * from tenant
+        <where>
+            <if test="query != null and query != ''">
+                TenantName like concat('%',#{query},'%') or CompId like concat('%',#{query},'%')
+            </if>
+            and Valid=0
+        </where>
+
+    </select>
+    <select id="selectTenantCode" parameterType="string" resultType="com.yhgc.api.entity.Tenant">
+        select * from tenant where CompId like CONCAT('%',#{compId},'%') order by CompId asc
+    </select>
+</mapper>

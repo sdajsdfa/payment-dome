@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.UserInfo2Mapper">
+
+    <select id="pageQueryAllUserInfo" resultType="com.yhgc.api.entity.UserInfo2Vo">
+        select Id,Name,Account,Valid,Email,CreateDate,CompId from user_info2
+        <where>
+            <if test="query != null and query != ''">
+                Name like concat('%',#{query},'%') or Account like concat('%',#{query},'%')
+            </if>
+            <if test="compId != null and compId != ''">
+                CompId =#{compId}
+            </if>
+        </where>
+        Order By CreateDate Desc
+    </select>
+    <select id="getUserInfo" resultType="com.yhgc.api.vo.UserInfo3Vo">
+        select * from user_info2 where Account=#{account}
+    </select>
+    <select id="queryAllName" resultType="com.yhgc.api.vo.UserInfoVo">
+        select Id,Name from user_info2 where 1=1
+    </select>
+    <select id="getByUserInfoId" resultType="com.yhgc.api.dto.UserInfo2Dto">
+        select ui.Id,ui.CompId,ui.Name,ui.Account,ui.Sex,ui.Valid,ui.Phone,ui.Email,ui.JobNo,ui.WorkNo,ui.FromStructId,ui.LookAllData,ui.LookAllSurvey,ui.TestBoss,ui.FromRoleId,ui.Sign,ui.CreateDate,cs.DepartName as DepartName,ri.RoleName as RoleName from user_info2 ui left join company_struct cs on ui.FromStructId = cs.Id left join role_info ri on ui.FromRoleId = ri.Id where ui.Id=#{id}
+    </select>
+
+</mapper>

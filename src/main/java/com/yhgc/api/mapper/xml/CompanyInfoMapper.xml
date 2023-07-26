@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhgc.api.mapper.CompanyInfoMapper">
+    <resultMap id="CompanyInfoMap" type="com.yhgc.api.vo.CompanyInfoVo">
+        <id property="compName" column="CompName" jdbcType="VARCHAR"/>
+        <collection property="companyStructList" javaType="java.util.List" ofType="com.yhgc.api.entity.CompanyStruct">
+            <id property="id" column="Id" jdbcType="INTEGER"/>
+            <result property="compId" column="CompId" jdbcType="VARCHAR"/>
+            <result property="departName" column="DepartName" jdbcType="VARCHAR"/>
+            <result property="isBusiness" column="IsBusiness" jdbcType="VARCHAR"/>
+            <result property="businessScope" column="BusinessScope" jdbcType="VARCHAR"/>
+            <result property="valid" column="Valid" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cs.Id,cs.CompId,cs.DepartName,cs.IsBusiness,cs.BusinessScope,cs.Valid,ci.CompName as CompName
+    </sql>
+
+    <select id="companyStructList" resultMap="CompanyInfoMap" >
+        select <include refid="Base_Column_List" /> from company_info ci left join company_struct cs on ci.CompId = cs.CompId  where ci.CompId = #{CompId}
+    </select>
+
+</mapper>
