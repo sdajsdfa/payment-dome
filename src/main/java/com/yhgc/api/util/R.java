@@ -20,6 +20,10 @@ public class R extends HashMap<String, Object> {
 		return error(400, msg);
 	}
 
+	public static R errorToken(String msg) {
+		return error(-10001, msg);
+	}
+
 	public static R error(int code, String msg) {
 		R r = new R();
 		r.put("code", code);

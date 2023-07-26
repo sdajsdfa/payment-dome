@@ -1,7 +1,6 @@
 package com.yhgc.api.config;
 
 import com.yhgc.api.Interceptor.LoginInterceptor;
-import com.yhgc.api.Interceptor.UserLoginInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,10 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new LoginInterceptor();
     }
 
-    @Bean
-    public UserLoginInterceptor UserLoginInterceptor() {
-        return new UserLoginInterceptor();
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

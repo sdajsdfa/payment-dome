@@ -2,7 +2,7 @@ package com.yhgc.api.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.yhgc.api.entity.UserInfo;
+import com.yhgc.api.entity.UserInfo2;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
@@ -33,17 +33,17 @@ public class TokenUtils {
 
     /**
      * 生成token值
-     * @param userinfo
+     * @param userInfo
      * @return
      */
-    public static String getToken(UserInfo userinfo) {
+    public static String getToken(UserInfo2 userInfo) {
         Date start = new Date();
         long currentTime = System.currentTimeMillis() + 60* 60 * 8000;//八小时有效时间
         Date end = new Date(currentTime);
         String token = "";
 
-        token = JWT.create().withAudience(String.valueOf(userinfo.getId())).withIssuedAt(start).withExpiresAt(end)
-                .sign(Algorithm.HMAC256(userinfo.getPassWord()));
+        token = JWT.create().withAudience(String.valueOf(userInfo.getId())).withIssuedAt(start).withExpiresAt(end)
+                .sign(Algorithm.HMAC256(userInfo.getPassword()));
         return token;
     }
 

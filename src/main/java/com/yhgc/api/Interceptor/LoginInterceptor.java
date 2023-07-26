@@ -4,10 +4,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.yhgc.api.entity.UserInfo;
+import com.yhgc.api.entity.UserInfo2;
 import com.yhgc.api.service.PassToken;
+import com.yhgc.api.service.UserInfo2Service;
 import com.yhgc.api.service.UserinfoLoginToken;
-import com.yhgc.api.service.UserInfoService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 public class LoginInterceptor implements HandlerInterceptor {
 
       @Resource
-      private UserInfoService userinfoService;
+      private UserInfo2Service userInfo2Service;
 
       @Override
       public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
@@ -50,22 +50,22 @@ public class LoginInterceptor implements HandlerInterceptor {
                                 try {
                                         id = JWT.decode(token).getAudience().get(0);
                                 } catch (JWTDecodeException j) {
-                                        throw new RuntimeException("401");
+                                        throw new RuntimeException("token失效，请重新登录");
                                 }
-                                UserInfo userinfo = userinfoService.getById(id);
+                                UserInfo2 userInfo = userInfo2Service.getById(id);
 //                                UserInfo session = (UserInfo) httpServletRequest.getSession(true).getAttribute(token);
 //                                if(!session.equals(userinfo)){
 //                                    throw new RuntimeException("token失效");
 //                                }
-                                if (userinfo == null) {
+                                if (userInfo == null) {
                                         throw new RuntimeException("用户不存在，请重新登录");
                                 }
                                 // 验证 token
-                                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(userinfo.getPassWord())).build();
+                                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(userInfo.getPassword())).build();
                                 try {
                                         jwtVerifier.verify(token);
                                 } catch (JWTVerificationException e) {
-                                        throw new RuntimeException("401");
+                                        throw new RuntimeException("token验证失败");
                                 }
                                 return true;
                         }

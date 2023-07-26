@@ -54,7 +54,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
          mpg.setGlobalConfig(gc);
          //2、设置数据源
          DataSourceConfig dsc = new DataSourceConfig();
-         dsc.setUrl("jdbc:mysql://localhost:3306/yanhaiyun?serverTimezone=GMT");
+         dsc.setUrl("jdbc:mysql://localhost:3306/yanhaigongsi?serverTimezone=GMT");
          dsc.setDriverName("com.mysql.cj.jdbc.Driver");
          dsc.setUsername("root");//账号
          dsc.setPassword("123456");//密码
